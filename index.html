@@ -244,6 +244,7 @@ body {
       <div style="display:flex;align-items:center;gap:10px;">
         <button class="btn-color-icon" onclick="openColorSheet()">🎨</button>
         <button class="btn-sales" onclick="showSales()">SALES</button>
+        <button onclick="doLogout()" style="background:transparent;border:none;font-family:'Jost',sans-serif;font-size:11px;color:#888;cursor:pointer;letter-spacing:0.1em;">LOGOUT</button>
       </div>
     </div>
     <div class="search-wrap">
@@ -549,7 +550,10 @@ body {
     document.getElementById('loginForm').style.display = 'none';
     document.getElementById('signupForm').style.display = 'block';
   }
-
+  async function doLogout() {
+  await sb.auth.signOut();
+  showScreen('screenLogin');
+}
   async function doLogin() {
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
