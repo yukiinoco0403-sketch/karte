@@ -163,7 +163,7 @@ body {
 .sheet { background: var(--surface); width: 100%; max-height: 92vh; overflow-y: auto; border-radius: 16px 16px 0 0; padding-bottom: 40px; animation: slideUp 0.28s cubic-bezier(0.32, 0.72, 0, 1); }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 .sheet-handle { width: 36px; height: 4px; background: var(--accent); border-radius: 2px; margin: 12px auto 0; opacity: 0.5; }
-.sheet-title { font-size: 10px; letter-spacing: 0.3em; color: var(--text-muted); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; padding: 20px 24px 0; margin-bottom: 20px; }
+.sheet-title { font-size: 10px; letter-spacing: 0.3em; color: var(--text-muted); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; padding: 24px 24px 0; margin-bottom: 20px; }
 
 .form-group { padding: 0 24px; margin-bottom: 16px; }
 .form-group label { display: block; font-size: 9px; letter-spacing: 0.25em; color: var(--text-muted); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 6px; }
@@ -360,7 +360,6 @@ body {
     <div class="sheet-handle"></div>
     <p class="sheet-title">New Record</p>
     <div class="form-group"><label>施術日 *</label><div style="display:flex;align-items:center;gap:4px;"><input type="number" id="inDateYear" min="2000" max="2099" style="width:72px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">年</span><input type="number" id="inDateMonth" min="1" max="12" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">月</span><input type="number" id="inDateDay" min="1" max="31" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">日</span></div></div>
-    <div class="form-group"><label>施術時間</label><div style="display:flex;align-items:center;gap:4px;"><input type="text" id="inTimeStart" maxlength="5" style="width:60px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="11:00"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">〜</span><input type="text" id="inTimeEnd" maxlength="5" style="width:60px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="13:00"></div></div>
     <div class="form-group"><label>施術メニュー</label><input type="text" id="inMenu" placeholder="例：カラー＋カット"></div>
     <div class="form-group"><label>金額</label><input type="text" id="inAmount" placeholder="例：12,000"></div>
     <div class="divider"></div>
@@ -392,7 +391,6 @@ body {
     <div class="sheet-handle"></div>
     <p class="sheet-title">Edit Record</p>
     <div class="form-group"><label>施術日 *</label><div style="display:flex;align-items:center;gap:4px;"><input type="number" id="inEditDateYear" min="2000" max="2099" style="width:72px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">年</span><input type="number" id="inEditDateMonth" min="1" max="12" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">月</span><input type="number" id="inEditDateDay" min="1" max="31" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">日</span></div></div>
-    <div class="form-group"><label>施術時間</label><div style="display:flex;align-items:center;gap:4px;"><input type="text" id="inEditTimeStart" maxlength="5" style="width:60px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="11:00"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">〜</span><input type="text" id="inEditTimeEnd" maxlength="5" style="width:60px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="13:00"></div></div>
     <div class="form-group"><label>施術メニュー</label><input type="text" id="inEditMenu"></div>
     <div class="form-group"><label>金額</label><input type="text" id="inEditAmount"></div>
     <div class="divider"></div>
@@ -531,8 +529,6 @@ body {
           id: r.id,
           client_id: c.id,
           date: r.date || '',
-          time_start: r.timeStart || '',
-          time_end: r.timeEnd || '',
           menu: r.menu || '',
           amount: r.amount || '',
           agent: r.agent || '',
@@ -612,7 +608,6 @@ body {
             <div class="record-row"><p class="record-row-label">Menu</p><p class="record-row-value ${r.menu ? 'jost' : 'empty'}">${r.menu || '未記入'}</p></div>
             <div class="record-row"><p class="record-row-label">Amount</p><p class="${r.amount ? 'record-amount-val' : 'record-row-value empty'}">${r.amount ? '¥' + r.amount : '—'}</p></div>
           </div>
-          ${(r.timeStart || r.timeEnd) ? `<div class="record-row"><p class="record-row-label">Time</p><p class="record-row-value jost">${r.timeStart || ''}${r.timeStart && r.timeEnd ? ' 〜 ' : ''}${r.timeEnd || ''}</p></div>` : ''}
           ${r.agent ? `<div class="record-row"><p class="record-row-label">薬剤</p><p class="record-row-value">${r.agent.replace(/\n/g,'<br>')}</p></div>` : ''}
           ${r.content ? `<div class="record-row"><p class="record-row-label">施術内容</p><p class="record-row-value">${r.content.replace(/\n/g,'<br>')}</p></div>` : ''}
           ${r.convo ? `<div class="record-row"><p class="record-row-label">会話メモ</p><p class="record-row-value">${r.convo.replace(/\n/g,'<br>')}</p></div>` : ''}
@@ -778,8 +773,6 @@ body {
     document.getElementById('inDateYear').value = d.getFullYear();
     document.getElementById('inDateMonth').value = d.getMonth() + 1;
     document.getElementById('inDateDay').value = d.getDate();
-    document.getElementById('inTimeStart').value = '';
-    document.getElementById('inTimeEnd').value = '';
     ['inMenu','inAmount','inAgent','inContent','inConvo','inNote'].forEach(id => document.getElementById(id).value = '');
     pendingPhotos = [];
     document.getElementById('photoPreviewGrid').innerHTML = '';
@@ -796,8 +789,6 @@ body {
     c.records.push({
       id: Date.now().toString() + Math.random().toString(36).slice(2),
       date: buildDate(year, month, day),
-      timeStart: document.getElementById('inTimeStart').value.trim(),
-      timeEnd: document.getElementById('inTimeEnd').value.trim(),
       menu: document.getElementById('inMenu').value.trim(),
       amount: document.getElementById('inAmount').value.trim(),
       agent: document.getElementById('inAgent').value.trim(),
@@ -821,8 +812,6 @@ body {
     document.getElementById('inEditDateYear').value = match ? match[1] : d.getFullYear();
     document.getElementById('inEditDateMonth').value = match ? match[2] : d.getMonth() + 1;
     document.getElementById('inEditDateDay').value = match ? match[3] : d.getDate();
-    document.getElementById('inEditTimeStart').value = r.timeStart || '';
-    document.getElementById('inEditTimeEnd').value = r.timeEnd || '';
     document.getElementById('inEditMenu').value = r.menu || '';
     document.getElementById('inEditAmount').value = r.amount || '';
     document.getElementById('inEditAgent').value = r.agent || '';
@@ -843,8 +832,6 @@ body {
     const day = document.getElementById('inEditDateDay').value.trim();
     if (!year || !month || !day) { alert('施術日を入力してください'); return; }
     r.date = buildDate(year, month, day);
-    r.timeStart = document.getElementById('inEditTimeStart').value.trim();
-    r.timeEnd = document.getElementById('inEditTimeEnd').value.trim();
     r.menu = document.getElementById('inEditMenu').value.trim();
     r.amount = document.getElementById('inEditAmount').value.trim();
     r.agent = document.getElementById('inEditAgent').value.trim();
@@ -992,7 +979,7 @@ body {
         if (parseInt(match[1]) === year && parseInt(match[2]) === month + 1) {
           const day = parseInt(match[3]);
           if (!map[day]) map[day] = [];
-          map[day].push({ name: c.name || c.kana, menu: r.menu, clientId: c.id, timeStart: r.timeStart || '' });
+          map[day].push({ name: c.name || c.kana, menu: r.menu, clientId: c.id,  });
         }
       });
     });
@@ -1027,11 +1014,11 @@ body {
     const resultEl = document.getElementById('calResult');
     if (!entries || entries.length === 0) { resultEl.style.display = 'none'; return; }
     document.getElementById('calResultLabel').textContent = `${calYear}年${calMonth+1}月${day}日`;
-    const sorted = [...entries].sort((a, b) => (a.timeStart || '99:99').localeCompare(b.timeStart || '99:99'));
+    const sorted = [...entries].sort((a, b) => 0);
     document.getElementById('calResultList').innerHTML = sorted.map(e => `
       <div class="cal-result-item" onclick="closeCalendar(); openClient('${e.clientId}')">
         <div>
-          <p class="cal-result-name">${e.timeStart ? `<span style="font-size:11px;color:#888;margin-right:6px;">${e.timeStart}</span>` : ''}${e.name}</p>
+          <p class="cal-result-name">${e.name}</p>
           ${e.menu ? `<p class="cal-result-menu">${e.menu}</p>` : ''}
         </div>
         <span class="cal-result-arrow">›</span>
