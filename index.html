@@ -209,8 +209,9 @@ body {
 
 .cal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 150; align-items: flex-end; }
 .cal-overlay.open { display: flex; }
-.cal-sheet { background: var(--surface); width: 100%; border-radius: 16px 16px 0 0; padding: 20px 20px 40px; animation: slideUp 0.28s cubic-bezier(0.32,0.72,0,1); }
-.cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.cal-sheet { background: var(--surface); width: 100%; border-radius: 16px 16px 0 0; animation: slideUp 0.28s cubic-bezier(0.32,0.72,0,1); max-height: 85vh; display: flex; flex-direction: column; }
+.cal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 20px 16px; flex-shrink: 0; }
+.cal-body { overflow-y: auto; padding: 0 20px 40px; }
 .cal-month-label { font-family: 'Jost', sans-serif; font-size: 15px; font-weight: 500; color: #333; letter-spacing: 0.05em; }
 .cal-nav { background: transparent; border: none; color: var(--accent); font-size: 20px; cursor: pointer; padding: 4px 10px; }
 .cal-close { background: transparent; border: none; color: #aaa; font-size: 20px; cursor: pointer; padding: 4px; line-height: 1; }
@@ -224,6 +225,7 @@ body {
 .cal-num { font-family: 'Jost', sans-serif; font-size: 13px; color: #333; font-weight: 300; }
 .cal-result { margin-top: 16px; border-top: 1px solid var(--border); padding-top: 14px; }
 .cal-result-label { font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.25em; color: #888; text-transform: uppercase; margin-bottom: 10px; }
+.cal-result-list { max-height: 200px; overflow-y: auto; display: flex; flex-direction: column-reverse; }
 .cal-result-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(136,136,136,0.12); cursor: pointer; }
 .cal-result-item:last-child { border-bottom: none; }
 .cal-result-name { font-family: 'Jost', sans-serif; font-size: 14px; color: #333; font-weight: 400; }
@@ -432,10 +434,12 @@ body {
       <button class="cal-nav" onclick="calNext()">›</button>
       <button class="cal-close" onclick="closeCalendar()">✕</button>
     </div>
-    <div class="cal-grid" id="calGrid"></div>
-    <div class="cal-result" id="calResult" style="display:none;">
-      <p class="cal-result-label" id="calResultLabel"></p>
-      <div id="calResultList"></div>
+    <div class="cal-body">
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-result" id="calResult" style="display:none;">
+        <p class="cal-result-label" id="calResultLabel"></p>
+        <div class="cal-result-list"><div id="calResultList"></div></div>
+      </div>
     </div>
   </div>
 </div>
