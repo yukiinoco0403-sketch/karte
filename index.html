@@ -4,220 +4,213 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>personal KARTE</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Shippori+Mincho:wght@400;600&display=swap');
 
-  :root {
-    --bg: #faf6f2;
-    --surface: #ffffff;
-    --border: #e8ddd4;
-    --accent: #0ecf8f;
-    --accent-light: #e2e4d8;
-    --text: #333333;
-    --text-muted: #888888;
-    --danger: #c0392b;
-  }
+:root {
+  --bg: #faf6f2;
+  --surface: #ffffff;
+  --border: #e8ddd4;
+  --accent: #0ecf8f;
+  --accent-light: #e2e4d8;
+  --text: #333333;
+  --text-muted: #888888;
+  --danger: #c0392b;
+}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-  body {
-    font-family: 'Jost', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    max-width: 430px;
-    margin: 0 auto;
-  }
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  max-width: 430px;
+  margin: 0 auto;
+}
 
-  .screen { display: none; min-height: 100vh; flex-direction: column; }
-  .screen.active { display: flex; }
+.screen { display: none; min-height: 100vh; flex-direction: column; }
+.screen.active { display: flex; }
 
-  /* HOME */
-  .home-header { background: #e2e4d8; padding: 52px 24px 20px; }
+/* HOME */
+.home-header { background: #e2e4d8; padding: 52px 24px 20px; }
+.home-title { font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 0.5em; color: rgba(42,32,24,0.4); text-transform: uppercase; margin-bottom: 6px; }
+.home-brand { font-family: 'Jost', sans-serif; font-size: 36px; font-weight: 600; color: #0ecf8f; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0; line-height: 1; }
+.home-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.btn-sales { background: transparent; border: 1px solid #0ecf8f; color: #333; padding: 7px 14px; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.15em; cursor: pointer; border-radius: 2px; font-weight: 400; text-transform: uppercase; white-space: nowrap; }
+.btn-calendar { background: transparent; border: 1px solid #0ecf8f; padding: 7px 10px; cursor: pointer; border-radius: 2px; font-size: 16px; line-height: 1; display: flex; align-items: center; }
 
-  .home-title {
-    font-family: 'Jost', sans-serif;
-    font-size: 11px;
-    font-weight: 300;
-    letter-spacing: 0.5em;
-    color: rgba(42,32,24,0.4);
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
+.sales-day { background: var(--surface); border: 1px solid #888; margin-bottom: 10px; border-radius: 2px; overflow: hidden; animation: fadeUp 0.25s ease both; }
+.sales-day-header { background: #e2e4d8; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
+.sales-day-date { font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.15em; font-weight: 400; color: #333; }
+.sales-day-count { font-family: 'Jost', sans-serif; font-size: 10px; color: #888; font-weight: 300; }
+.sales-day-body { padding: 14px 16px; }
+.sales-day-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(136,136,136,0.15); }
+.sales-day-row:last-child { border-bottom: none; }
+.sales-day-name { font-family: 'Jost', sans-serif; font-size: 13px; color: #333; font-weight: 300; }
+.sales-day-menu { font-family: 'Jost', sans-serif; font-size: 11px; color: #888; font-weight: 300; }
+.sales-day-amount { font-family: 'Jost', sans-serif; font-size: 14px; color: #333; font-weight: 400; }
+.sales-day-total { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(14,207,143,0.08); border-top: 1px solid rgba(14,207,143,0.2); }
+.sales-day-total-label { font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.2em; color: #888; text-transform: uppercase; }
+.sales-day-total-val { font-family: 'Jost', sans-serif; font-size: 16px; color: #0ecf8f; font-weight: 500; }
+.sales-month-item { background: var(--surface); border: 1px solid #0ecf8f; padding: 18px 20px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border-radius: 2px; animation: fadeUp 0.25s ease both; }
+.sales-month-item:active { background: #e2e4d8; }
+.sales-month-label { font-family: 'Jost', sans-serif; font-size: 17px; font-weight: 500; color: #333; letter-spacing: 0.05em; }
+.sales-month-sub { font-family: 'Jost', sans-serif; font-size: 11px; color: #888; font-weight: 300; margin-top: 3px; }
+.sales-month-arrow { color: #0ecf8f; font-size: 22px; font-weight: 300; }
 
-  .home-brand {
-    font-family: 'Jost', sans-serif;
-    font-size: 36px;
-    font-weight: 600;
-    color: #0ecf8f;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 0;
-    line-height: 1;
-  }
+.search-wrap { padding: 0 24px 20px; }
+.search-input-wrap { position: relative; }
+.search-input { width: 100%; background: rgba(255,255,255,0.6); border: 1px solid #0ecf8f; border-radius: 24px; padding: 10px 16px 10px 38px; font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 300; color: var(--text); outline: none; -webkit-appearance: none; letter-spacing: 0.05em; }
+.search-input::placeholder { color: rgba(42,32,24,0.35); }
+.search-input:focus { border-color: #0ecf8f; }
+.search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: rgba(42,32,24,0.35); font-size: 14px; pointer-events: none; }
+.search-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: rgba(42,32,24,0.4); font-size: 16px; cursor: pointer; display: none; line-height: 1; padding: 2px; }
 
-  .home-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-  .btn-sales { background: transparent; border: 1px solid #0ecf8f; color: #333; padding: 7px 14px; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.15em; cursor: pointer; border-radius: 2px; font-weight: 400; text-transform: uppercase; white-space: nowrap; }
+.home-body { padding: 20px 20px 100px; flex: 1; background: #e2e4d8; }
+.section-label { font-size: 10px; letter-spacing: 0.3em; color: #888; font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 14px; }
 
-  /* 売上集計 */
-  .sales-day { background: var(--surface); border: 1px solid #888; margin-bottom: 10px; border-radius: 2px; overflow: hidden; animation: fadeUp 0.25s ease both; }
-  .sales-day-header { background: #e2e4d8; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
-  .sales-day-date { font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.15em; font-weight: 400; color: #333; }
-  .sales-day-count { font-family: 'Jost', sans-serif; font-size: 10px; color: #888; font-weight: 300; }
-  .sales-day-body { padding: 14px 16px; }
-  .sales-day-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(136,136,136,0.15); }
-  .sales-day-row:last-child { border-bottom: none; }
-  .sales-day-name { font-family: 'Jost', sans-serif; font-size: 13px; color: #333; font-weight: 300; }
-  .sales-day-menu { font-family: 'Jost', sans-serif; font-size: 11px; color: #888; font-weight: 300; }
-  .sales-day-amount { font-family: 'Jost', sans-serif; font-size: 14px; color: #333; font-weight: 400; }
-  .sales-day-total { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(14,207,143,0.08); border-top: 1px solid rgba(14,207,143,0.2); }
-  .sales-day-total-label { font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.2em; color: #888; text-transform: uppercase; }
-  .sales-day-total-val { font-family: 'Jost', sans-serif; font-size: 16px; color: #0ecf8f; font-weight: 500; }
-  .sales-month-item { background: var(--surface); border: 1px solid #888; padding: 18px 20px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border-radius: 2px; animation: fadeUp 0.25s ease both; }
-  .sales-month-item:active { background: #e2e4d8; }
-  .sales-month-label { font-family: 'Jost', sans-serif; font-size: 17px; font-weight: 500; color: #333; letter-spacing: 0.05em; }
-  .sales-month-sub { font-family: 'Jost', sans-serif; font-size: 11px; color: #888; font-weight: 300; margin-top: 3px; }
-  .sales-month-arrow { color: #0ecf8f; font-size: 22px; font-weight: 300; }
+.client-card { background: var(--surface); border: 1px solid #0ecf8f; padding: 18px 20px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border-radius: 2px; animation: fadeUp 0.3s ease both; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.client-card:active { background: var(--accent-light); }
+.client-card-name { font-size: 17px; font-weight: 500; margin-bottom: 4px; letter-spacing: 0.02em; }
+.client-card-name mark { background: var(--accent-light); color: var(--accent); border-radius: 2px; padding: 0 2px; font-style: normal; }
+.client-card-meta { font-size: 11px; color: #888; font-weight: 300; letter-spacing: 0.08em; }
+.client-card-memo-preview { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 11px; color: #888; margin-top: 5px; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.client-arrow { color: var(--accent); font-size: 22px; font-weight: 300; flex-shrink: 0; }
 
-  .home-brand span {
-    font-weight: 300;
-    color: var(--accent);
-  }
+.empty-clients { text-align: center; padding: 60px 20px; color: var(--text-muted); font-size: 13px; letter-spacing: 0.05em; line-height: 2.2; font-weight: 300; }
+.empty-search { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 13px; line-height: 2; }
+.empty-search span { display: block; font-size: 28px; margin-bottom: 8px; opacity: 0.4; }
 
-  /* 検索バー */
-  .search-wrap { padding: 0 24px 20px; }
-  .search-input-wrap { position: relative; }
-  .search-input {
-    width: 100%;
-    background: rgba(255,255,255,0.6);
-    border: 1px solid #0ecf8f;
-    border-radius: 24px;
-    padding: 10px 16px 10px 38px;
-    font-family: 'Jost', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    color: var(--text);
-    outline: none;
-    -webkit-appearance: none;
-    letter-spacing: 0.05em;
-  }
-  .search-input::placeholder { color: rgba(42,32,24,0.35); }
-  .search-input:focus { border-color: #0ecf8f; }
-  .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: rgba(42,32,24,0.35); font-size: 14px; pointer-events: none; }
-  .search-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: rgba(42,32,24,0.4); font-size: 16px; cursor: pointer; display: none; line-height: 1; padding: 2px; }
+.fab { position: fixed; bottom: 32px; right: 24px; width: 58px; height: 58px; background: var(--accent); border-radius: 50%; border: none; color: white; font-size: 28px; cursor: pointer; box-shadow: 0 4px 20px rgba(14,207,143,0.35); display: flex; align-items: center; justify-content: center; z-index: 50; transition: transform 0.15s; font-family: 'Jost', sans-serif; font-weight: 300; }
+.fab:active { transform: scale(0.92); }
 
-  .home-body { padding: 20px 20px 100px; flex: 1; background: #e2e4d8; }
-  .section-label { font-size: 10px; letter-spacing: 0.3em; color: #888; font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 14px; }
+/* DETAIL */
+.detail-header { background: #e2e4d8; position: sticky; top: 0; z-index: 40; }
+.detail-nav { display: flex; align-items: center; padding: 52px 20px 16px; gap: 12px; }
+.btn-back { background: transparent; border: none; color: #0ecf8f; font-size: 24px; cursor: pointer; padding: 4px 8px 4px 0; line-height: 1; }
+.detail-nav-title { font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.3em; color: #888; flex: 1; text-transform: uppercase; font-weight: 400; }
+.btn-edit-nav { background: transparent; border: 1px solid #0ecf8f; color: #0ecf8f; padding: 6px 14px; font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.15em; cursor: pointer; text-transform: uppercase; }
 
-  .client-card { background: var(--surface); border: 1px solid #0ecf8f; padding: 18px 20px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border-radius: 2px; animation: fadeUp 0.3s ease both; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .client-card:active { background: var(--accent-light); }
-  .client-card-name { font-size: 17px; font-weight: 500; margin-bottom: 4px; letter-spacing: 0.02em; }
-  .client-card-name mark { background: var(--accent-light); color: var(--accent); border-radius: 2px; padding: 0 2px; font-style: normal; }
-  .client-card-meta { font-size: 11px; color: #888; font-weight: 300; letter-spacing: 0.08em; }
-  .client-card-memo-preview { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 11px; color: #888; margin-top: 5px; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .client-arrow { color: var(--accent); font-size: 22px; font-weight: 300; flex-shrink: 0; }
+.client-info-fixed { background: #e2e4d8; padding: 0 20px 20px; border-bottom: 2px solid #0ecf8f; }
+.client-info-name { font-size: 26px; font-weight: 500; color: var(--text); letter-spacing: 0.04em; margin-bottom: 8px; }
+.client-info-memo { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 12px; color: var(--text-muted); line-height: 1.7; }
+.client-info-memo.empty { color: var(--text-muted); font-style: italic; }
 
-  .empty-clients { text-align: center; padding: 60px 20px; color: var(--text-muted); font-size: 13px; letter-spacing: 0.05em; line-height: 2.2; font-weight: 300; }
-  .empty-search { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 13px; line-height: 2; }
-  .empty-search span { display: block; font-size: 28px; margin-bottom: 8px; opacity: 0.4; }
+.detail-body { flex: 1; padding: 20px 20px 100px; }
+.records-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.btn-add-record { background: #0ecf8f; border: none; color: white; padding: 9px 18px; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.15em; cursor: pointer; border-radius: 2px; text-transform: uppercase; font-weight: 400; }
 
-  .fab { position: fixed; bottom: 32px; right: 24px; width: 58px; height: 58px; background: var(--accent); border-radius: 50%; border: none; color: white; font-size: 28px; cursor: pointer; box-shadow: 0 4px 20px rgba(196,149,106,0.45); display: flex; align-items: center; justify-content: center; z-index: 50; transition: transform 0.15s; font-family: 'Jost', sans-serif; font-weight: 300; }
-  .fab:active { transform: scale(0.92); }
+.year-current-label { font-size: 10px; letter-spacing: 0.3em; color: #888; font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 12px; margin-top: 4px; }
+.year-accordion { border: 1px solid var(--accent); border-radius: 2px; margin-bottom: 12px; overflow: hidden; }
+.year-accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; background: var(--surface); user-select: none; -webkit-user-select: none; }
+.year-accordion-header:active { background: var(--accent-light); }
+.year-accordion-left { display: flex; flex-direction: column; gap: 3px; }
+.year-accordion-title { font-family: 'Jost', sans-serif; font-size: 16px; font-weight: 500; color: #333; letter-spacing: 0.05em; }
+.year-accordion-sub { font-family: 'Jost', sans-serif; font-size: 10px; color: #888; font-weight: 300; letter-spacing: 0.08em; }
+.year-accordion-arrow { font-size: 18px; color: var(--accent); font-weight: 300; transition: transform 0.25s ease; line-height: 1; }
+.year-accordion.open .year-accordion-arrow { transform: rotate(90deg); }
+.year-accordion-body { display: none; padding: 0 0 4px; border-top: 1px solid rgba(14,207,143,0.2); background: var(--bg); }
+.year-accordion.open .year-accordion-body { display: block; animation: fadeUp 0.2s ease both; }
+.year-accordion-body .record-item { margin: 8px 10px; }
 
-  /* DETAIL */
-  .detail-header { background: #e2e4d8; position: sticky; top: 0; z-index: 40; }
-  .detail-nav { display: flex; align-items: center; padding: 52px 20px 16px; gap: 12px; }
-  .btn-back { background: transparent; border: none; color: #0ecf8f; font-size: 24px; cursor: pointer; padding: 4px 8px 4px 0; line-height: 1; }
-  .detail-nav-title { font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.3em; color: #888; flex: 1; text-transform: uppercase; font-weight: 400; }
-  .btn-edit-nav { background: transparent; border: 1px solid #0ecf8f; color: #0ecf8f; padding: 6px 14px; font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.15em; cursor: pointer; text-transform: uppercase; }
+.record-item { background: var(--surface); border: 1px solid #888; margin-bottom: 12px; border-radius: 2px; overflow: hidden; animation: fadeUp 0.25s ease both; }
+.record-item-header { background: #e2e4d8; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
+.record-item-date { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.15em; font-weight: 400; color: #333; }
+.record-item-actions { display: flex; gap: 8px; align-items: center; }
+.record-item-num { font-family: 'Jost', sans-serif; font-size: 10px; color: #888; font-weight: 300; }
+.btn-record-edit { background: transparent; border: 1px solid #0ecf8f; color: #0ecf8f; padding: 3px 10px; font-family: 'Jost', sans-serif; font-size: 9px; letter-spacing: 0.1em; cursor: pointer; border-radius: 2px; text-transform: uppercase; }
+.btn-record-delete { background: transparent; border: none; color: #aaa; font-size: 16px; cursor: pointer; padding: 2px 4px; line-height: 1; }
 
-  .client-info-fixed { background: #e2e4d8; padding: 0 20px 20px; border-bottom: 2px solid #0ecf8f; }
-  .client-info-name { font-size: 26px; font-weight: 500; color: var(--text); letter-spacing: 0.04em; margin-bottom: 8px; }
-  .client-info-memo { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 12px; color: var(--text-muted); line-height: 1.7; }
-  .client-info-memo.empty { color: var(--text-muted); font-style: italic; }
+.record-item-body { padding: 16px; }
+.record-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.record-row { margin-bottom: 12px; }
+.record-row:last-child { margin-bottom: 0; }
+.record-row-label { font-size: 9px; letter-spacing: 0.25em; color: #888; font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 3px; }
+.record-row-value { font-family: 'Jost', sans-serif; font-size: 13px; line-height: 1.7; font-weight: 300; color: #333; }
+.record-row-value.jost { font-family: 'Jost', sans-serif; font-weight: 300; color: #333; }
+.record-row-value.empty { color: #aaa; font-style: italic; font-size: 12px; font-family: 'Jost', sans-serif; font-weight: 300; }
+.record-amount-val { font-family: 'Jost', sans-serif; font-size: 17px; color: #333; font-weight: 400; letter-spacing: 0.05em; }
 
-  .detail-body { flex: 1; padding: 20px 20px 100px; }
-  .records-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .btn-add-record { background: #0ecf8f; border: none; color: white; padding: 9px 18px; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.15em; cursor: pointer; border-radius: 2px; text-transform: uppercase; font-weight: 400; }
+.record-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 12px; }
+.record-photo { aspect-ratio: 1; border-radius: 2px; overflow: hidden; background: var(--bg); border: 1px solid var(--border); cursor: pointer; }
+.record-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  .record-item { background: var(--surface); border: 1px solid #888; margin-bottom: 12px; border-radius: 2px; overflow: hidden; animation: fadeUp 0.25s ease both; }
-  .record-item-header { background: #e2e4d8; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
-  .record-item-date { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.15em; font-weight: 400; color: #333; }
-  .record-item-actions { display: flex; gap: 8px; align-items: center; }
-  .record-item-num { font-family: 'Jost', sans-serif; font-size: 10px; color: #888; font-weight: 300; }
-  .btn-record-edit { background: transparent; border: 1px solid #0ecf8f; color: #0ecf8f; padding: 3px 10px; font-family: 'Jost', sans-serif; font-size: 9px; letter-spacing: 0.1em; cursor: pointer; border-radius: 2px; text-transform: uppercase; }
-  .btn-record-delete { background: transparent; border: none; color: #aaa; font-size: 16px; cursor: pointer; padding: 2px 4px; line-height: 1; }
+.no-records { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 12px; letter-spacing: 0.15em; line-height: 2.2; font-weight: 300; }
 
-  .record-item-body { padding: 16px; }
-  .record-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-  .record-row { margin-bottom: 12px; }
-  .record-row:last-child { margin-bottom: 0; }
-  .record-row-label { font-size: 9px; letter-spacing: 0.25em; color: #888; font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 3px; }
-  .record-row-value { font-family: 'Jost', sans-serif; font-size: 13px; line-height: 1.7; font-weight: 300; color: #333; }
-  .record-row-value.jost { font-family: 'Jost', sans-serif; font-weight: 300; color: #333; }
-  .record-row-value.empty { color: #aaa; font-style: italic; font-size: 12px; font-family: 'Jost', sans-serif; font-weight: 300; }
-  .record-amount-val { font-family: 'Jost', sans-serif; font-size: 17px; color: #333; font-weight: 400; letter-spacing: 0.05em; }
+/* SHEETS */
+.sheet-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; align-items: flex-end; }
+.sheet-overlay.open { display: flex; }
+.sheet { background: var(--surface); width: 100%; max-height: 92vh; overflow-y: auto; border-radius: 16px 16px 0 0; padding-bottom: 40px; animation: slideUp 0.28s cubic-bezier(0.32, 0.72, 0, 1); }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.sheet-handle { width: 36px; height: 4px; background: #0ecf8f; border-radius: 2px; margin: 12px auto 0; opacity: 0.5; }
+.sheet-title { font-size: 10px; letter-spacing: 0.3em; color: var(--text-muted); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; padding: 20px 24px 0; margin-bottom: 20px; }
 
-  /* 写真 */
-  .record-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 12px; }
-  .record-photo { aspect-ratio: 1; border-radius: 2px; overflow: hidden; background: var(--bg); border: 1px solid var(--border); cursor: pointer; }
-  .record-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.form-group { padding: 0 24px; margin-bottom: 16px; }
+.form-group label { display: block; font-size: 9px; letter-spacing: 0.25em; color: var(--text-muted); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 6px; }
+.form-group input, .form-group textarea { width: 100%; border: 1px solid #888; background: #e2e4d8; padding: 12px 14px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 15px; color: var(--text); outline: none; border-radius: 2px; resize: vertical; -webkit-appearance: none; }
+.form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+.form-group textarea { min-height: 80px; }
+.divider { height: 1px; background: #888; margin: 8px 24px 16px; opacity: 0.3; }
 
-  .no-records { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 12px; letter-spacing: 0.15em; line-height: 2.2; font-weight: 300; }
+.photo-upload-area { padding: 0 24px; margin-bottom: 16px; }
+.photo-upload-label { display: block; font-size: 9px; letter-spacing: 0.25em; color: var(--text-muted); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 8px; }
+.photo-upload-btn { width: 100%; border: 1.5px dashed #888; background: #e2e4d8; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; border-radius: 2px; transition: border-color 0.2s; }
+.photo-upload-btn:active { border-color: #0ecf8f; }
+.photo-upload-icon { font-size: 24px; opacity: 0.4; }
+.photo-upload-text { font-family: 'Jost', sans-serif; font-size: 12px; color: var(--text-muted); font-weight: 300; letter-spacing: 0.05em; }
+.photo-input { display: none; }
+.photo-preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
+.photo-preview-item { position: relative; aspect-ratio: 1; border-radius: 2px; overflow: hidden; }
+.photo-preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-preview-remove { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; color: white; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; }
 
-  /* SHEETS */
-  .sheet-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; align-items: flex-end; }
-  .sheet-overlay.open { display: flex; }
-  .sheet { background: var(--surface); width: 100%; max-height: 92vh; overflow-y: auto; border-radius: 16px 16px 0 0; padding-bottom: 40px; animation: slideUp 0.28s cubic-bezier(0.32, 0.72, 0, 1); }
-  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-  .sheet-handle { width: 36px; height: 4px; background: #0ecf8f; border-radius: 2px; margin: 12px auto 0; opacity: 0.5; }
-  .sheet-title { font-size: 10px; letter-spacing: 0.3em; color: var(--text-muted); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; padding: 20px 24px 0; margin-bottom: 20px; }
+.sheet-actions { padding: 20px 24px 0; display: flex; gap: 10px; }
+.btn-sheet-cancel { flex: 1; background: transparent; border: 1px solid #0ecf8f; padding: 13px; font-family: 'Jost', sans-serif; font-size: 14px; color: #0ecf8f; cursor: pointer; border-radius: 2px; font-weight: 300; }
+.btn-sheet-save { flex: 2; background: var(--accent); border: none; padding: 13px; font-family: 'Jost', sans-serif; font-size: 14px; color: white; cursor: pointer; letter-spacing: 0.1em; border-radius: 2px; font-weight: 400; }
 
-  .form-group { padding: 0 24px; margin-bottom: 16px; }
-  .form-group label { display: block; font-size: 9px; letter-spacing: 0.25em; color: var(--text-muted); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 6px; }
-  .form-group input, .form-group textarea { width: 100%; border: 1px solid #888; background: #e2e4d8; padding: 12px 14px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 15px; color: var(--text); outline: none; border-radius: 2px; resize: vertical; -webkit-appearance: none; }
-  .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
-  .form-group textarea { min-height: 80px; }
-  .divider { height: 1px; background: #888; margin: 8px 24px 16px; opacity: 0.3; }
+.danger-zone { margin: 24px 24px 0; padding: 16px; border: 1px solid #f0d0cc; border-radius: 2px; }
+.danger-zone-label { font-size: 9px; letter-spacing: 0.2em; color: var(--danger); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 10px; opacity: 0.7; }
+.btn-delete-client { width: 100%; background: transparent; border: 1px solid var(--danger); color: var(--danger); padding: 11px; font-family: 'Jost', sans-serif; font-size: 13px; cursor: pointer; border-radius: 2px; opacity: 0.8; font-weight: 300; }
 
-  /* 写真アップロードエリア */
-  .photo-upload-area { padding: 0 24px; margin-bottom: 16px; }
-  .photo-upload-label { display: block; font-size: 9px; letter-spacing: 0.25em; color: var(--text-muted); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 8px; }
-  .photo-upload-btn { width: 100%; border: 1.5px dashed #888; background: #e2e4d8; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; border-radius: 2px; transition: border-color 0.2s; }
-  .photo-upload-btn:active { border-color: #0ecf8f; background: #d4ddd0; }
-  .photo-upload-icon { font-size: 24px; opacity: 0.4; }
-  .photo-upload-text { font-family: 'Jost', sans-serif; font-size: 12px; color: var(--text-muted); font-weight: 300; letter-spacing: 0.05em; }
-  .photo-input { display: none; }
-  .photo-preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
-  .photo-preview-item { position: relative; aspect-ratio: 1; border-radius: 2px; overflow: hidden; }
-  .photo-preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .photo-preview-remove { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; color: white; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; }
+.confirm-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 24px; }
+.confirm-overlay.open { display: flex; }
+.confirm-box { background: var(--surface); border-radius: 8px; padding: 28px 24px; width: 100%; max-width: 320px; text-align: center; animation: popIn 0.2s ease; }
+@keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.confirm-title { font-size: 15px; font-weight: 500; margin-bottom: 10px; letter-spacing: 0.02em; }
+.confirm-sub { font-family: 'Shippori Mincho', serif; font-size: 12px; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
+.confirm-actions { display: flex; gap: 10px; }
+.btn-confirm-cancel { flex: 1; background: transparent; border: 1px solid var(--border); padding: 12px; font-family: 'Jost', sans-serif; font-size: 14px; color: var(--text-muted); cursor: pointer; border-radius: 2px; font-weight: 300; }
+.btn-confirm-delete { flex: 1; background: var(--danger); border: none; padding: 12px; font-family: 'Jost', sans-serif; font-size: 14px; color: white; cursor: pointer; border-radius: 2px; font-weight: 400; }
 
-  .sheet-actions { padding: 20px 24px 0; display: flex; gap: 10px; }
-  .btn-sheet-cancel { flex: 1; background: transparent; border: 1px solid #0ecf8f; padding: 13px; font-family: 'Jost', sans-serif; font-size: 14px; color: #0ecf8f; cursor: pointer; border-radius: 2px; font-weight: 300; }
-  .btn-sheet-save { flex: 2; background: var(--accent); border: none; padding: 13px; font-family: 'Jost', sans-serif; font-size: 14px; color: white; cursor: pointer; letter-spacing: 0.1em; border-radius: 2px; font-weight: 400; }
+.photo-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 300; align-items: center; justify-content: center; }
+.photo-modal.open { display: flex; }
+.photo-modal img { max-width: 95vw; max-height: 90vh; object-fit: contain; border-radius: 2px; }
+.photo-modal-close { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: white; font-size: 28px; cursor: pointer; opacity: 0.7; }
 
-  .danger-zone { margin: 24px 24px 0; padding: 16px; border: 1px solid #f0d0cc; border-radius: 2px; }
-  .danger-zone-label { font-size: 9px; letter-spacing: 0.2em; color: var(--danger); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 10px; opacity: 0.7; }
-  .btn-delete-client { width: 100%; background: transparent; border: 1px solid var(--danger); color: var(--danger); padding: 11px; font-family: 'Jost', sans-serif; font-size: 13px; cursor: pointer; border-radius: 2px; opacity: 0.8; font-weight: 300; }
-
-  .confirm-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 24px; }
-  .confirm-overlay.open { display: flex; }
-  .confirm-box { background: var(--surface); border-radius: 8px; padding: 28px 24px; width: 100%; max-width: 320px; text-align: center; animation: popIn 0.2s ease; }
-  @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-  .confirm-title { font-size: 15px; font-weight: 500; margin-bottom: 10px; letter-spacing: 0.02em; }
-  .confirm-sub { font-family: 'Shippori Mincho', serif; font-size: 12px; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
-  .confirm-actions { display: flex; gap: 10px; }
-  .btn-confirm-cancel { flex: 1; background: transparent; border: 1px solid var(--border); padding: 12px; font-family: 'Jost', sans-serif; font-size: 14px; color: var(--text-muted); cursor: pointer; border-radius: 2px; font-weight: 300; }
-  .btn-confirm-delete { flex: 1; background: var(--danger); border: none; padding: 12px; font-family: 'Jost', sans-serif; font-size: 14px; color: white; cursor: pointer; border-radius: 2px; font-weight: 400; }
-
-  /* 写真拡大モーダル */
-  .photo-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 300; align-items: center; justify-content: center; }
-  .photo-modal.open { display: flex; }
-  .photo-modal img { max-width: 95vw; max-height: 90vh; object-fit: contain; border-radius: 2px; }
-  .photo-modal-close { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: white; font-size: 28px; cursor: pointer; opacity: 0.7; }
+.cal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 150; align-items: flex-end; }
+.cal-overlay.open { display: flex; }
+.cal-sheet { background: var(--surface); width: 100%; border-radius: 16px 16px 0 0; padding: 20px 20px 40px; animation: slideUp 0.28s cubic-bezier(0.32,0.72,0,1); }
+.cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.cal-month-label { font-family: 'Jost', sans-serif; font-size: 15px; font-weight: 500; color: #333; letter-spacing: 0.05em; }
+.cal-nav { background: transparent; border: none; color: #0ecf8f; font-size: 20px; cursor: pointer; padding: 4px 10px; }
+.cal-close { background: transparent; border: none; color: #aaa; font-size: 20px; cursor: pointer; padding: 4px; line-height: 1; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-dow { font-family: 'Jost', sans-serif; font-size: 10px; color: #aaa; text-align: center; padding: 4px 0; letter-spacing: 0.1em; }
+.cal-cell { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; border-radius: 4px; position: relative; }
+.cal-cell:active { background: var(--accent-light); }
+.cal-cell.empty { cursor: default; }
+.cal-cell.today .cal-num { background: #0ecf8f; color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
+.cal-cell.has-record .cal-dot { width: 4px; height: 4px; background: #0ecf8f; border-radius: 50%; margin-top: 2px; }
+.cal-num { font-family: 'Jost', sans-serif; font-size: 13px; color: #333; font-weight: 300; }
+.cal-result { margin-top: 16px; border-top: 1px solid var(--border); padding-top: 14px; }
+.cal-result-label { font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.25em; color: #888; text-transform: uppercase; margin-bottom: 10px; }
+.cal-result-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(136,136,136,0.12); cursor: pointer; }
+.cal-result-item:last-child { border-bottom: none; }
+.cal-result-name { font-family: 'Jost', sans-serif; font-size: 14px; color: #333; font-weight: 400; }
+.cal-result-menu { font-family: 'Jost', sans-serif; font-size: 11px; color: #888; font-weight: 300; margin-top: 2px; }
+.cal-result-arrow { color: #0ecf8f; font-size: 18px; }
 </style>
 </head>
 <body>
@@ -228,7 +221,10 @@
     <p class="home-title">personal</p>
     <div class="home-header-row">
       <h1 class="home-brand">KARTE</h1>
-      <button class="btn-sales" onclick="showSales()">SALES</button>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="btn-calendar" onclick="openCalendar()">📅</button>
+        <button class="btn-sales" onclick="showSales()">SALES</button>
+      </div>
     </div>
     <div class="search-wrap">
       <div class="search-input-wrap">
@@ -250,11 +246,8 @@
   <div class="detail-header">
     <div class="detail-nav">
       <button class="btn-back" onclick="goHome()">←</button>
-      <span class="detail-nav-title">Sales</span>
-    </div>
-    <div class="client-info-fixed">
-      <p class="client-info-name">SALES</p>
-      <p class="client-info-memo">月を選択してください</p>
+      <span class="detail-nav-title">Client Data</span>
+      <p style="font-family:'Jost',sans-serif;font-size:22px;font-weight:600;color:#333;letter-spacing:0.08em;">SALES</p>
     </div>
   </div>
   <div class="detail-body">
@@ -267,10 +260,10 @@
   <div class="detail-header">
     <div class="detail-nav">
       <button class="btn-back" onclick="showSalesMonth()">←</button>
-      <span class="detail-nav-title" id="salesMonthLabel">SALES</span>
+      <span class="detail-nav-title" id="salesMonthLabel">Sales</span>
     </div>
     <div class="client-info-fixed">
-      <p class="client-info-name" id="salesTotalLabel">TOTAL ¥0</p>
+      <p class="client-info-name" id="salesTotalLabel">Total ¥0</p>
       <p class="client-info-memo" id="salesSubLabel">0件</p>
     </div>
   </div>
@@ -278,6 +271,8 @@
     <div id="salesListEl"></div>
   </div>
 </div>
+
+<!-- DETAIL -->
 <div class="screen" id="screenDetail">
   <div class="detail-header">
     <div class="detail-nav">
@@ -304,10 +299,11 @@
   <div class="sheet">
     <div class="sheet-handle"></div>
     <p class="sheet-title">New Client</p>
-    <div class="form-group"><label>お客様名 *</label><input type="text" id="inClientName" placeholder="例：田中 花子"></div>
+    <div class="form-group"><label>お客様名（漢字）</label><input type="text" id="inClientName" placeholder="例：田中 花子"></div>
+    <div class="form-group"><label>カタカナ *</label><input type="text" id="inClientKana" placeholder="例：タナカ ハナコ"></div>
     <div class="form-group"><label>パーソナルメモ（皮膚・アレルギー等）</label><textarea id="inClientMemo" placeholder="例：皮膚が弱い、シミやすい、ガードクリーム必須"></textarea></div>
     <div class="sheet-actions">
-      <button class="btn-sheet-cancel" onclick="closeSheet('sheetNewClient')">Cancel</button>
+      <button class="btn-sheet-cancel" onclick="closeSheet('sheetNewClient')">CANCEL</button>
       <button class="btn-sheet-save" onclick="saveNewClient()">保存する</button>
     </div>
   </div>
@@ -318,10 +314,11 @@
   <div class="sheet">
     <div class="sheet-handle"></div>
     <p class="sheet-title">Edit Client</p>
-    <div class="form-group"><label>お客様名 *</label><input type="text" id="inEditClientName"></div>
+    <div class="form-group"><label>お客様名（漢字）</label><input type="text" id="inEditClientName"></div>
+    <div class="form-group"><label>カタカナ *</label><input type="text" id="inEditClientKana"></div>
     <div class="form-group"><label>パーソナルメモ</label><textarea id="inEditClientMemo"></textarea></div>
     <div class="sheet-actions">
-      <button class="btn-sheet-cancel" onclick="closeSheet('sheetEditClient')">Cancel</button>
+      <button class="btn-sheet-cancel" onclick="closeSheet('sheetEditClient')">CANCEL</button>
       <button class="btn-sheet-save" onclick="saveEditClient()">保存する</button>
     </div>
     <div class="danger-zone">
@@ -336,6 +333,8 @@
   <div class="sheet">
     <div class="sheet-handle"></div>
     <p class="sheet-title">New Record</p>
+    <div class="form-group"><label>施術日 *</label><div style="display:flex;align-items:center;gap:4px;"><input type="number" id="inDateYear" min="2000" max="2099" style="width:72px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">年</span><input type="number" id="inDateMonth" min="1" max="12" style="width:52px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">月</span><input type="number" id="inDateDay" min="1" max="31" style="width:52px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">日</span></div></div>
+    <div class="form-group"><label>施術時間</label><div style="display:flex;align-items:center;gap:4px;"><input type="text" id="inTimeStart" maxlength="5" style="width:60px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="11:00"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">〜</span><input type="text" id="inTimeEnd" maxlength="5" style="width:60px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="13:00"></div></div>
     <div class="form-group"><label>施術メニュー</label><input type="text" id="inMenu" placeholder="例：カラー＋カット"></div>
     <div class="form-group"><label>金額</label><input type="text" id="inAmount" placeholder="例：12,000"></div>
     <div class="divider"></div>
@@ -355,7 +354,7 @@
       <div class="photo-preview-grid" id="photoPreviewGrid"></div>
     </div>
     <div class="sheet-actions">
-      <button class="btn-sheet-cancel" onclick="closeSheet('sheetNewRecord')">Cancel</button>
+      <button class="btn-sheet-cancel" onclick="closeSheet('sheetNewRecord')">CANCEL</button>
       <button class="btn-sheet-save" onclick="saveNewRecord()">保存する</button>
     </div>
   </div>
@@ -366,6 +365,8 @@
   <div class="sheet">
     <div class="sheet-handle"></div>
     <p class="sheet-title">Edit Record</p>
+    <div class="form-group"><label>施術日 *</label><div style="display:flex;align-items:center;gap:4px;"><input type="number" id="inEditDateYear" min="2000" max="2099" style="width:72px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">年</span><input type="number" id="inEditDateMonth" min="1" max="12" style="width:52px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">月</span><input type="number" id="inEditDateDay" min="1" max="31" style="width:52px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">日</span></div></div>
+    <div class="form-group"><label>施術時間</label><div style="display:flex;align-items:center;gap:4px;"><input type="text" id="inEditTimeStart" maxlength="5" style="width:60px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="11:00"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">〜</span><input type="text" id="inEditTimeEnd" maxlength="5" style="width:60px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="13:00"></div></div>
     <div class="form-group"><label>施術メニュー</label><input type="text" id="inEditMenu"></div>
     <div class="form-group"><label>金額</label><input type="text" id="inEditAmount"></div>
     <div class="divider"></div>
@@ -385,7 +386,7 @@
       <div class="photo-preview-grid" id="photoPreviewGridEdit"></div>
     </div>
     <div class="sheet-actions">
-      <button class="btn-sheet-cancel" onclick="closeSheet('sheetEditRecord')">Cancel</button>
+      <button class="btn-sheet-cancel" onclick="closeSheet('sheetEditRecord')">CANCEL</button>
       <button class="btn-sheet-save" onclick="saveEditRecord()">保存する</button>
     </div>
   </div>
@@ -397,8 +398,25 @@
     <p class="confirm-title" id="confirmTitle">削除しますか？</p>
     <p class="confirm-sub" id="confirmSub">この操作は取り消せません。</p>
     <div class="confirm-actions">
-      <button class="btn-confirm-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="btn-confirm-cancel" onclick="closeConfirm()">CANCEL</button>
       <button class="btn-confirm-delete" id="confirmOkBtn">削除する</button>
+    </div>
+  </div>
+</div>
+
+<!-- カレンダー -->
+<div class="cal-overlay" id="calOverlay">
+  <div class="cal-sheet">
+    <div class="cal-header">
+      <button class="cal-nav" onclick="calPrev()">‹</button>
+      <span class="cal-month-label" id="calMonthLabel"></span>
+      <button class="cal-nav" onclick="calNext()">›</button>
+      <button class="cal-close" onclick="closeCalendar()">✕</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="cal-result" id="calResult" style="display:none;">
+      <p class="cal-result-label" id="calResultLabel"></p>
+      <div id="calResultList"></div>
     </div>
   </div>
 </div>
@@ -409,20 +427,55 @@
   <img id="photoModalImg" src="" alt="">
 </div>
 
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://maburmoicqtoucdujhme.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1hYnVybW9pY3F0b3VjZHVqaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDYxNDUsImV4cCI6MjA5MTg4MjE0NX0.Sf5vs3fqripm1OiEeqN3PUCulj59PDmgiQQTyZmuaIk';
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
 
 <script>
-const SUPABASE_URL = 'https://maburmoicqtoucdujhme.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1hYnVybW9pY3F0b3VjZHVqaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDYxNDUsImV4cCI6MjA5MTg4MjE0NX0.Sf5vs3fqripm1OiEeqN3PUCulj59PDmgiQQTyZmuaIk';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const CURRENT_YEAR = new Date().getFullYear();
+
   let clients = JSON.parse(localStorage.getItem('karte_v4') || '[]');
   let currentClientId = null;
   let editingRecordIndex = null;
   let confirmCallback = null;
   let searchQuery = '';
-  let pendingPhotos = []; // base64
+  let pendingPhotos = [];
   let pendingPhotosEdit = [];
 
-  function await save() { localStorage.setItem('karte_v4', JSON.stringify(clients)); }
+  // Supabase保存
+  async function save() {
+    localStorage.setItem('karte_v4', JSON.stringify(clients));
+    for (const c of clients) {
+      await sb.from('clients').upsert({
+        id: c.id,
+        name: c.name || '',
+        kana: c.kana || '',
+        memo: c.memo || ''
+      });
+      for (const r of c.records) {
+        if (!r.id) r.id = Date.now().toString() + Math.random().toString(36).slice(2);
+        await sb.from('records').upsert({
+          id: r.id,
+          client_id: c.id,
+          date: r.date || '',
+          time_start: r.timeStart || '',
+          time_end: r.timeEnd || '',
+          menu: r.menu || '',
+          amount: r.amount || '',
+          agent: r.agent || '',
+          content: r.content || '',
+          convo: r.convo || '',
+          note: r.note || '',
+          photos: JSON.stringify(r.photos || [])
+        });
+      }
+    }
+  }
+
   function getToday() { const d = new Date(); return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`; }
 
   function showScreen(id) {
@@ -431,7 +484,6 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     window.scrollTo(0, 0);
   }
 
-  // 検索
   function onSearch(val) {
     searchQuery = val.trim();
     document.getElementById('searchClear').style.display = searchQuery ? 'block' : 'none';
@@ -448,18 +500,20 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
   }
 
-  // HOME
   function renderHome() {
     const el = document.getElementById('clientListEl');
-    const filtered = searchQuery ? clients.filter(c => c.name.includes(searchQuery)) : clients;
+    const filtered = searchQuery
+      ? clients.filter(c => (c.kana || '').includes(searchQuery) || (c.name || '').includes(searchQuery))
+      : [...clients].sort((a, b) => (a.kana || '').localeCompare(b.kana || '', 'ja'));
     document.getElementById('clientCountLabel').textContent = searchQuery ? `Result — ${filtered.length}` : `Clients — ${clients.length}`;
     if (clients.length === 0) { el.innerHTML = '<div class="empty-clients">顧客がいません<br>右下の ＋ から追加してください</div>'; return; }
     if (filtered.length === 0) { el.innerHTML = `<div class="empty-search"><span>🔍</span>「${searchQuery}」は見つかりません</div>`; return; }
     el.innerHTML = filtered.map((c, i) => `
       <div class="client-card" style="animation-delay:${i*0.04}s" onclick="openClient('${c.id}')">
         <div>
-          <p class="client-card-name">${highlight(c.name, searchQuery)}</p>
-          <p class="client-card-meta">${c.records.length} records${c.records.length > 0 ? ' · ' + c.records[c.records.length-1].date : ''}</p>
+          <p class="client-card-name">${highlight(c.name || c.kana, searchQuery)}</p>
+          <p class="client-card-meta" style="letter-spacing:0.05em;margin-bottom:2px;">${highlight(c.kana || '', searchQuery)}</p>
+          <p class="client-card-meta">${c.records.length} RECORDS${c.records.length > 0 ? ' · ' + c.records[c.records.length-1].date : ''}</p>
           ${c.memo ? `<p class="client-card-memo-preview">${c.memo}</p>` : ''}
         </div>
         <span class="client-arrow">›</span>
@@ -468,100 +522,124 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   }
 
   function goHome() { showScreen('screenHome'); renderHome(); }
-
-  // DETAIL
   function openClient(id) { currentClientId = id; showScreen('screenDetail'); renderDetail(); }
+
+  function buildRecordHTML(r, realIndex, animDelay) {
+    const photosHTML = r.photos && r.photos.length > 0
+      ? `<div class="record-photos">${r.photos.map(p => `<div class="record-photo" onclick="openPhotoModal('${p}')"><img src="${p}" alt="施術写真"></div>`).join('')}</div>`
+      : '';
+    return `
+      <div class="record-item" style="animation-delay:${animDelay}s">
+        <div class="record-item-header">
+          <span class="record-item-date">${r.date}</span>
+          <div class="record-item-actions">
+            <span class="record-item-num">No. ${realIndex + 1}</span>
+            <button class="btn-record-edit" onclick="openEditRecordSheet(${realIndex})">Edit</button>
+            <button class="btn-record-delete" onclick="confirmDeleteRecord(${realIndex})">✕</button>
+          </div>
+        </div>
+        <div class="record-item-body">
+          <div class="record-grid">
+            <div class="record-row"><p class="record-row-label">Menu</p><p class="record-row-value ${r.menu ? 'jost' : 'empty'}">${r.menu || '未記入'}</p></div>
+            <div class="record-row"><p class="record-row-label">Amount</p><p class="${r.amount ? 'record-amount-val' : 'record-row-value empty'}">${r.amount ? '¥' + r.amount : '—'}</p></div>
+          </div>
+          ${(r.timeStart || r.timeEnd) ? `<div class="record-row"><p class="record-row-label">Time</p><p class="record-row-value jost">${r.timeStart || ''}${r.timeStart && r.timeEnd ? ' 〜 ' : ''}${r.timeEnd || ''}</p></div>` : ''}
+          ${r.agent ? `<div class="record-row"><p class="record-row-label">薬剤</p><p class="record-row-value">${r.agent.replace(/\n/g,'<br>')}</p></div>` : ''}
+          ${r.content ? `<div class="record-row"><p class="record-row-label">施術内容</p><p class="record-row-value">${r.content.replace(/\n/g,'<br>')}</p></div>` : ''}
+          ${r.convo ? `<div class="record-row"><p class="record-row-label">会話メモ</p><p class="record-row-value">${r.convo.replace(/\n/g,'<br>')}</p></div>` : ''}
+          ${r.note ? `<div class="record-row"><p class="record-row-label">その他</p><p class="record-row-value">${r.note.replace(/\n/g,'<br>')}</p></div>` : ''}
+          ${photosHTML}
+        </div>
+      </div>
+    `;
+  }
 
   function renderDetail() {
     const c = clients.find(x => x.id === currentClientId);
     if (!c) return;
-    document.getElementById('detailName').textContent = c.name;
+    document.getElementById('detailName').textContent = c.name || c.kana;
     const memoEl = document.getElementById('detailMemo');
     memoEl.textContent = c.memo || 'メモなし';
     memoEl.className = 'client-info-memo' + (c.memo ? '' : ' empty');
     document.getElementById('recordCountLabel').textContent = `Records — ${c.records.length}`;
     const el = document.getElementById('recordListEl');
-    if (c.records.length === 0) { el.innerHTML = '<div class="no-records">施術記録がありません<br>上のボタンから追加してください</div>'; return; }
-    el.innerHTML = [...c.records].reverse().map((r, displayI) => {
-      const realIndex = c.records.length - 1 - displayI;
-      const photosHTML = r.photos && r.photos.length > 0
-        ? `<div class="record-photos">${r.photos.map((p, pi) => `<div class="record-photo" onclick="openPhotoModal('${p}')"><img src="${p}" alt="施術写真"></div>`).join('')}</div>`
-        : '';
-      return `
-        <div class="record-item" style="animation-delay:${displayI*0.04}s">
-          <div class="record-item-header">
-            <span class="record-item-date">${r.date}</span>
-            <div class="record-item-actions">
-              <span class="record-item-num">No. ${realIndex + 1}</span>
-              <button class="btn-record-edit" onclick="openEditRecordSheet(${realIndex})">Edit</button>
-              <button class="btn-record-delete" onclick="confirmDeleteRecord(${realIndex})">✕</button>
+    if (c.records.length === 0) {
+      el.innerHTML = '<div class="no-records">施術記録がありません<br>上のボタンから追加してください</div>';
+      return;
+    }
+    const byYear = {};
+    c.records.forEach((r, realIndex) => {
+      const match = r.date.match(/(\d{4})年/);
+      const year = match ? parseInt(match[1]) : CURRENT_YEAR;
+      if (!byYear[year]) byYear[year] = [];
+      byYear[year].push({ r, realIndex });
+    });
+    const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
+    let html = '';
+    let animIndex = 0;
+    years.forEach(year => {
+      const entries = byYear[year].reverse();
+      const recordsHTML = entries.map(({ r, realIndex }) => buildRecordHTML(r, realIndex, animIndex++ * 0.04)).join('');
+      if (year === CURRENT_YEAR) {
+        html += `<p class="year-current-label">${year} — ${entries.length}件</p>`;
+        html += recordsHTML;
+      } else {
+        const totalAmount = entries.reduce((sum, { r }) => sum + (parseInt((r.amount || '0').replace(/[,，\s]/g, '')) || 0), 0);
+        html += `
+          <div class="year-accordion" id="accordion-${year}">
+            <div class="year-accordion-header" onclick="toggleAccordion(${year})">
+              <div class="year-accordion-left">
+                <span class="year-accordion-title">${year}</span>
+                <span class="year-accordion-sub">${entries.length}件 · ¥${totalAmount.toLocaleString()}</span>
+              </div>
+              <span class="year-accordion-arrow">›</span>
             </div>
+            <div class="year-accordion-body">${recordsHTML}</div>
           </div>
-          <div class="record-item-body">
-            <div class="record-grid">
-              <div class="record-row"><p class="record-row-label">Menu</p><p class="record-row-value ${r.menu ? 'jost' : 'empty'}">${r.menu || '未記入'}</p></div>
-              <div class="record-row"><p class="record-row-label">Amount</p><p class="${r.amount ? 'record-amount-val' : 'record-row-value empty'}">${r.amount ? '¥' + r.amount : '—'}</p></div>
-            </div>
-            ${r.agent ? `<div class="record-row"><p class="record-row-label">薬剤</p><p class="record-row-value">${r.agent.replace(/\n/g,'<br>')}</p></div>` : ''}
-            ${r.content ? `<div class="record-row"><p class="record-row-label">施術内容</p><p class="record-row-value">${r.content.replace(/\n/g,'<br>')}</p></div>` : ''}
-            ${r.convo ? `<div class="record-row"><p class="record-row-label">会話メモ</p><p class="record-row-value">${r.convo.replace(/\n/g,'<br>')}</p></div>` : ''}
-            ${r.note ? `<div class="record-row"><p class="record-row-label">その他</p><p class="record-row-value">${r.note.replace(/\n/g,'<br>')}</p></div>` : ''}
-            ${photosHTML}
-          </div>
-        </div>
-      `;
-    }).join('');
+        `;
+      }
+    });
+    el.innerHTML = html;
   }
 
-  // 写真
+  function toggleAccordion(year) {
+    const el = document.getElementById(`accordion-${year}`);
+    if (el) el.classList.toggle('open');
+  }
+
   function handlePhotoSelect(input) {
-    const files = Array.from(input.files);
-    files.forEach(file => {
+    Array.from(input.files).forEach(file => {
+      if (!file.type.startsWith('image/')) return;
       const reader = new FileReader();
-      reader.onload = e => {
-        pendingPhotos.push(e.target.result);
-        renderPhotoPreview('photoPreviewGrid', pendingPhotos, 'new');
-      };
+      reader.onload = e => { pendingPhotos.push(e.target.result); renderPhotoPreview('photoPreviewGrid', pendingPhotos, 'new'); };
       reader.readAsDataURL(file);
     });
     input.value = '';
   }
-
   function handlePhotoSelectEdit(input) {
-    const files = Array.from(input.files);
-    files.forEach(file => {
+    Array.from(input.files).forEach(file => {
+      if (!file.type.startsWith('image/')) return;
       const reader = new FileReader();
-      reader.onload = e => {
-        pendingPhotosEdit.push(e.target.result);
-        renderPhotoPreview('photoPreviewGridEdit', pendingPhotosEdit, 'edit');
-      };
+      reader.onload = e => { pendingPhotosEdit.push(e.target.result); renderPhotoPreview('photoPreviewGridEdit', pendingPhotosEdit, 'edit'); };
       reader.readAsDataURL(file);
     });
     input.value = '';
   }
-
   function renderPhotoPreview(gridId, photos, mode) {
-    const grid = document.getElementById(gridId);
-    grid.innerHTML = photos.map((p, i) => `
+    document.getElementById(gridId).innerHTML = photos.map((p, i) => `
       <div class="photo-preview-item">
         <img src="${p}" alt="">
         <button class="photo-preview-remove" onclick="removePhoto(${i}, '${mode}')">✕</button>
       </div>
     `).join('');
   }
-
   function removePhoto(index, mode) {
     if (mode === 'new') { pendingPhotos.splice(index, 1); renderPhotoPreview('photoPreviewGrid', pendingPhotos, 'new'); }
     else { pendingPhotosEdit.splice(index, 1); renderPhotoPreview('photoPreviewGridEdit', pendingPhotosEdit, 'edit'); }
   }
-
-  function openPhotoModal(src) {
-    document.getElementById('photoModalImg').src = src;
-    document.getElementById('photoModal').classList.add('open');
-  }
+  function openPhotoModal(src) { document.getElementById('photoModalImg').src = src; document.getElementById('photoModal').classList.add('open'); }
   function closePhotoModal() { document.getElementById('photoModal').classList.remove('open'); }
 
-  // SHEETS
   function openSheet(id) { document.getElementById(id).classList.add('open'); }
   function closeSheet(id) { document.getElementById(id).classList.remove('open'); }
   ['sheetNewClient','sheetEditClient','sheetNewRecord','sheetEditRecord'].forEach(id => {
@@ -570,50 +648,87 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   function openNewClientSheet() {
     document.getElementById('inClientName').value = '';
+    document.getElementById('inClientKana').value = '';
     document.getElementById('inClientMemo').value = '';
     openSheet('sheetNewClient');
   }
-  function saveNewClient() {
+
+  async function saveNewClient() {
     const name = document.getElementById('inClientName').value.trim();
-    if (!name) { alert('お客様名を入力してください'); return; }
-    const c = { id: Date.now().toString(), name, memo: document.getElementById('inClientMemo').value.trim(), records: [] };
-    clients.push(c); await save(); closeSheet('sheetNewClient'); openClient(c.id);
+    const kana = document.getElementById('inClientKana').value.trim();
+    if (!kana) { alert('カタカナを入力してください'); return; }
+    const c = { id: Date.now().toString(), name, kana, memo: document.getElementById('inClientMemo').value.trim(), records: [] };
+    clients.push(c);
+    await save();
+    closeSheet('sheetNewClient');
+    openClient(c.id);
   }
 
   function openEditClientSheet() {
     const c = clients.find(x => x.id === currentClientId);
     if (!c) return;
     document.getElementById('inEditClientName').value = c.name;
+    document.getElementById('inEditClientKana').value = c.kana || '';
     document.getElementById('inEditClientMemo').value = c.memo;
     openSheet('sheetEditClient');
   }
-  function saveEditClient() {
+
+  async function saveEditClient() {
     const c = clients.find(x => x.id === currentClientId);
     if (!c) return;
-    const name = document.getElementById('inEditClientName').value.trim();
-    if (!name) { alert('お客様名を入力してください'); return; }
-    c.name = name; c.memo = document.getElementById('inEditClientMemo').value.trim();
-    await save(); closeSheet('sheetEditClient'); renderDetail();
+    const kana = document.getElementById('inEditClientKana').value.trim();
+    if (!kana) { alert('カタカナを入力してください'); return; }
+    c.name = document.getElementById('inEditClientName').value.trim();
+    c.kana = kana;
+    c.memo = document.getElementById('inEditClientMemo').value.trim();
+    await save();
+    closeSheet('sheetEditClient');
+    renderDetail();
   }
+
   function confirmDeleteClient() {
     const c = clients.find(x => x.id === currentClientId);
     document.getElementById('confirmTitle').textContent = `${c.name} を削除しますか？`;
     document.getElementById('confirmSub').textContent = `施術記録 ${c.records.length}件も含めて完全に削除されます。この操作は取り消せません。`;
-    confirmCallback = () => { clients = clients.filter(x => x.id !== currentClientId); await save(); closeConfirm(); closeSheet('sheetEditClient'); goHome(); };
+    confirmCallback = async () => {
+      await sb.from('records').delete().eq('client_id', currentClientId);
+      await sb.from('clients').delete().eq('id', currentClientId);
+      clients = clients.filter(x => x.id !== currentClientId);
+      localStorage.setItem('karte_v4', JSON.stringify(clients));
+      closeConfirm();
+      closeSheet('sheetEditClient');
+      goHome();
+    };
     openConfirm();
   }
 
+  function buildDate(year, month, day) { return `${year}年${month}月${day}日`; }
+
   function openNewRecordSheet() {
+    const d = new Date();
+    document.getElementById('inDateYear').value = d.getFullYear();
+    document.getElementById('inDateMonth').value = d.getMonth() + 1;
+    document.getElementById('inDateDay').value = d.getDate();
+    document.getElementById('inTimeStart').value = '';
+    document.getElementById('inTimeEnd').value = '';
     ['inMenu','inAmount','inAgent','inContent','inConvo','inNote'].forEach(id => document.getElementById(id).value = '');
     pendingPhotos = [];
     document.getElementById('photoPreviewGrid').innerHTML = '';
     openSheet('sheetNewRecord');
   }
-  function saveNewRecord() {
+
+  async function saveNewRecord() {
     const c = clients.find(x => x.id === currentClientId);
     if (!c) return;
+    const year = document.getElementById('inDateYear').value.trim();
+    const month = document.getElementById('inDateMonth').value.trim();
+    const day = document.getElementById('inDateDay').value.trim();
+    if (!year || !month || !day) { alert('施術日を入力してください'); return; }
     c.records.push({
-      date: getToday(),
+      id: Date.now().toString() + Math.random().toString(36).slice(2),
+      date: buildDate(year, month, day),
+      timeStart: document.getElementById('inTimeStart').value.trim(),
+      timeEnd: document.getElementById('inTimeEnd').value.trim(),
       menu: document.getElementById('inMenu').value.trim(),
       amount: document.getElementById('inAmount').value.trim(),
       agent: document.getElementById('inAgent').value.trim(),
@@ -622,7 +737,9 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       note: document.getElementById('inNote').value.trim(),
       photos: [...pendingPhotos]
     });
-    await save(); closeSheet('sheetNewRecord'); renderDetail();
+    await save();
+    closeSheet('sheetNewRecord');
+    renderDetail();
   }
 
   function openEditRecordSheet(index) {
@@ -630,6 +747,13 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     if (!c) return;
     const r = c.records[index];
     editingRecordIndex = index;
+    const match = (r.date || '').match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+    const d = new Date();
+    document.getElementById('inEditDateYear').value = match ? match[1] : d.getFullYear();
+    document.getElementById('inEditDateMonth').value = match ? match[2] : d.getMonth() + 1;
+    document.getElementById('inEditDateDay').value = match ? match[3] : d.getDate();
+    document.getElementById('inEditTimeStart').value = r.timeStart || '';
+    document.getElementById('inEditTimeEnd').value = r.timeEnd || '';
     document.getElementById('inEditMenu').value = r.menu || '';
     document.getElementById('inEditAmount').value = r.amount || '';
     document.getElementById('inEditAgent').value = r.agent || '';
@@ -640,10 +764,18 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     renderPhotoPreview('photoPreviewGridEdit', pendingPhotosEdit, 'edit');
     openSheet('sheetEditRecord');
   }
-  function saveEditRecord() {
+
+  async function saveEditRecord() {
     const c = clients.find(x => x.id === currentClientId);
     if (!c || editingRecordIndex === null) return;
     const r = c.records[editingRecordIndex];
+    const year = document.getElementById('inEditDateYear').value.trim();
+    const month = document.getElementById('inEditDateMonth').value.trim();
+    const day = document.getElementById('inEditDateDay').value.trim();
+    if (!year || !month || !day) { alert('施術日を入力してください'); return; }
+    r.date = buildDate(year, month, day);
+    r.timeStart = document.getElementById('inEditTimeStart').value.trim();
+    r.timeEnd = document.getElementById('inEditTimeEnd').value.trim();
     r.menu = document.getElementById('inEditMenu').value.trim();
     r.amount = document.getElementById('inEditAmount').value.trim();
     r.agent = document.getElementById('inEditAgent').value.trim();
@@ -651,14 +783,23 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     r.convo = document.getElementById('inEditConvo').value.trim();
     r.note = document.getElementById('inEditNote').value.trim();
     r.photos = [...pendingPhotosEdit];
-    await save(); closeSheet('sheetEditRecord'); renderDetail();
+    await save();
+    closeSheet('sheetEditRecord');
+    renderDetail();
   }
 
   function confirmDeleteRecord(index) {
     const c = clients.find(x => x.id === currentClientId);
     document.getElementById('confirmTitle').textContent = `No.${index + 1} の記録を削除しますか？`;
     document.getElementById('confirmSub').textContent = `${c.records[index].date} の施術記録が削除されます。この操作は取り消せません。`;
-    confirmCallback = () => { c.records.splice(index, 1); await save(); closeConfirm(); renderDetail(); };
+    confirmCallback = async () => {
+      const r = c.records[index];
+      if (r.id) await sb.from('records').delete().eq('id', r.id);
+      c.records.splice(index, 1);
+      localStorage.setItem('karte_v4', JSON.stringify(clients));
+      closeConfirm();
+      renderDetail();
+    };
     openConfirm();
   }
 
@@ -668,42 +809,27 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   document.getElementById('confirmDialog').addEventListener('click', function(e) { if (e.target === this) closeConfirm(); });
 
   // 売上集計
-  function showSales() {
-    showScreen('screenSalesMonth');
-    renderSalesMonth();
-  }
-
-  function showSalesMonth() {
-    showScreen('screenSalesMonth');
-    renderSalesMonth();
-  }
-
+  function showSales() { showScreen('screenSalesMonth'); renderSalesMonth(); }
+  function showSalesMonth() { showScreen('screenSalesMonth'); renderSalesMonth(); }
   function renderSalesMonth() {
-    // 全記録から年月一覧を抽出
     const months = {};
     clients.forEach(c => {
       c.records.forEach(r => {
         const match = r.date.match(/(\d{4})年(\d{1,2})月/);
         if (!match) return;
         const key = `${match[1]}年${match[2]}月`;
-        const amount = parseInt(r.amount.replace(/[,，\s]/g, '')) || 0;
+        const amount = parseInt((r.amount || '0').replace(/[,，\s]/g, '')) || 0;
         if (!months[key]) months[key] = { total: 0, count: 0, year: parseInt(match[1]), month: parseInt(match[2]) };
         months[key].total += amount;
         months[key].count++;
       });
     });
-
     const sorted = Object.keys(months).sort((a, b) => {
       const ma = months[a], mb = months[b];
       return mb.year !== ma.year ? mb.year - ma.year : mb.month - ma.month;
     });
-
     const el = document.getElementById('salesMonthListEl');
-    if (sorted.length === 0) {
-      el.innerHTML = '<div class="sales-empty">売上データがありません</div>';
-      return;
-    }
-
+    if (sorted.length === 0) { el.innerHTML = '<div class="no-records">売上データがありません</div>'; return; }
     el.innerHTML = sorted.map((key, i) => `
       <div class="sales-month-item" style="animation-delay:${i*0.05}s" onclick="showSalesByMonth('${key}')">
         <div>
@@ -725,35 +851,24 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     const byDate = {};
     clients.forEach(c => {
       c.records.forEach(r => {
-        if (!r.date.startsWith(monthKey.replace('月', '月'))) {
-          // 年月でフィルタ
-          const match = r.date.match(/(\d{4})年(\d{1,2})月/);
-          const mk = match ? `${match[1]}年${match[2]}月` : '';
-          if (mk !== monthKey) return;
-        }
-        const amount = parseInt(r.amount.replace(/[,，\s]/g, '')) || 0;
+        const match = r.date.match(/(\d{4})年(\d{1,2})月/);
+        const mk = match ? `${match[1]}年${match[2]}月` : '';
+        if (mk !== monthKey) return;
+        const amount = parseInt((r.amount || '0').replace(/[,，\s]/g, '')) || 0;
         if (!byDate[r.date]) byDate[r.date] = [];
         byDate[r.date].push({ name: c.name, menu: r.menu, amount });
       });
     });
-
     const dates = Object.keys(byDate).sort((a, b) => {
       const parse = d => d.replace(/[年月日]/g, '/').replace(/\/$/, '');
       return new Date(parse(b)) - new Date(parse(a));
     });
-
     let grandTotal = 0, grandCount = 0;
     dates.forEach(d => { byDate[d].forEach(r => { grandTotal += r.amount; grandCount++; }); });
-
-    document.getElementById('salesTotalLabel').textContent = `Total ¥${grandTotal.toLocaleString()}`;
+    document.getElementById('salesTotalLabel').textContent = `TOTAL ¥${grandTotal.toLocaleString()}`;
     document.getElementById('salesSubLabel').textContent = `${grandCount}件`;
-
     const el = document.getElementById('salesListEl');
-    if (dates.length === 0) {
-      el.innerHTML = '<div class="sales-empty">データがありません</div>';
-      return;
-    }
-
+    if (dates.length === 0) { el.innerHTML = '<div class="no-records">データがありません</div>'; return; }
     el.innerHTML = dates.map((date, i) => {
       const rows = byDate[date];
       const dayTotal = rows.reduce((sum, r) => sum + r.amount, 0);
@@ -781,6 +896,79 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         </div>
       `;
     }).join('');
+  }
+
+  // カレンダー
+  let calYear = new Date().getFullYear();
+  let calMonth = new Date().getMonth();
+
+  function openCalendar() {
+    calYear = new Date().getFullYear();
+    calMonth = new Date().getMonth();
+    document.getElementById('calResult').style.display = 'none';
+    renderCalendar();
+    document.getElementById('calOverlay').classList.add('open');
+  }
+  function closeCalendar() { document.getElementById('calOverlay').classList.remove('open'); }
+  document.getElementById('calOverlay').addEventListener('click', function(e) { if (e.target === this) closeCalendar(); });
+  function calPrev() { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); }
+  function calNext() { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCalendar(); }
+
+  function getRecordDatesInMonth(year, month) {
+    const map = {};
+    clients.forEach(c => {
+      c.records.forEach(r => {
+        const match = r.date.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+        if (!match) return;
+        if (parseInt(match[1]) === year && parseInt(match[2]) === month + 1) {
+          const day = parseInt(match[3]);
+          if (!map[day]) map[day] = [];
+          map[day].push({ name: c.name || c.kana, menu: r.menu, clientId: c.id, timeStart: r.timeStart || '' });
+        }
+      });
+    });
+    return map;
+  }
+
+  function renderCalendar() {
+    const today = new Date();
+    const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+    document.getElementById('calMonthLabel').textContent = `${calYear}年 ${monthNames[calMonth]}`;
+    document.getElementById('calResult').style.display = 'none';
+    const recordMap = getRecordDatesInMonth(calYear, calMonth);
+    const firstDay = new Date(calYear, calMonth, 1).getDay();
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    const dows = ['日','月','火','水','木','金','土'];
+    let html = dows.map(d => `<div class="cal-dow">${d}</div>`).join('');
+    for (let i = 0; i < firstDay; i++) html += `<div class="cal-cell empty"></div>`;
+    for (let d = 1; d <= daysInMonth; d++) {
+      const isToday = calYear === today.getFullYear() && calMonth === today.getMonth() && d === today.getDate();
+      const hasRecord = !!recordMap[d];
+      html += `<div class="cal-cell ${isToday ? 'today' : ''} ${hasRecord ? 'has-record' : ''}" onclick="calDayTap(${d})">
+        <span class="cal-num">${d}</span>
+        ${hasRecord ? '<span class="cal-dot"></span>' : ''}
+      </div>`;
+    }
+    document.getElementById('calGrid').innerHTML = html;
+  }
+
+  function calDayTap(day) {
+    const recordMap = getRecordDatesInMonth(calYear, calMonth);
+    const entries = recordMap[day];
+    const resultEl = document.getElementById('calResult');
+    if (!entries || entries.length === 0) { resultEl.style.display = 'none'; return; }
+    document.getElementById('calResultLabel').textContent = `${calYear}年${calMonth+1}月${day}日`;
+    const sorted = [...entries].sort((a, b) => (a.timeStart || '99:99').localeCompare(b.timeStart || '99:99'));
+    document.getElementById('calResultList').innerHTML = sorted.map(e => `
+      <div class="cal-result-item" onclick="closeCalendar(); openClient('${e.clientId}')">
+        <div>
+          <p class="cal-result-name">${e.timeStart ? `<span style="font-size:11px;color:#888;margin-right:6px;">${e.timeStart}</span>` : ''}${e.name}</p>
+          ${e.menu ? `<p class="cal-result-menu">${e.menu}</p>` : ''}
+        </div>
+        <span class="cal-result-arrow">›</span>
+      </div>
+    `).join('');
+    resultEl.style.display = 'block';
   }
 
   renderHome();
