@@ -371,7 +371,7 @@ body {
     <div class="form-group"><label>その他メモ</label><textarea id="inNote" placeholder="例：次回は白髪ぼかし提案してみる"></textarea></div>
     <div class="divider"></div>
     <div class="photo-upload-area">
-      <span class="photo-upload-label">施術写真</span>
+      <span class="photo-upload-label">施術写真（最大6枚）</span>
       <div class="photo-upload-btn" onclick="document.getElementById('photoInput').click()">
         <span class="photo-upload-icon">📷</span>
         <span class="photo-upload-text">タップして写真を追加</span>
@@ -402,7 +402,7 @@ body {
     <div class="form-group"><label>その他メモ</label><textarea id="inEditNote"></textarea></div>
     <div class="divider"></div>
     <div class="photo-upload-area">
-      <span class="photo-upload-label">施術写真</span>
+      <span class="photo-upload-label">施術写真（最大6枚）</span>
       <div class="photo-upload-btn" onclick="document.getElementById('photoInputEdit').click()">
         <span class="photo-upload-icon">📷</span>
         <span class="photo-upload-text">タップして写真を追加</span>
@@ -458,7 +458,7 @@ body {
 <div class="screen" id="screenLogin" style="background:var(--header-bg);justify-content:center;align-items:center;padding:40px 32px;">
   <p style="font-family:'Jost',sans-serif;font-size:11px;font-weight:300;letter-spacing:0.5em;color:rgba(42,32,24,0.4);text-transform:uppercase;margin-bottom:8px;">personal</p>
   <h1 style="font-family:'Jost',sans-serif;font-size:48px;font-weight:600;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:48px;">KARTE</h1>
-  
+
   <div id="loginForm" style="width:100%;">
     <div style="margin-bottom:16px;">
       <label style="display:block;font-size:9px;letter-spacing:0.25em;color:#888;font-family:'Jost',sans-serif;font-weight:400;text-transform:uppercase;margin-bottom:6px;">Email</label>
@@ -550,10 +550,13 @@ body {
     document.getElementById('loginForm').style.display = 'none';
     document.getElementById('signupForm').style.display = 'block';
   }
+
   async function doLogout() {
-  await sb.auth.signOut();
-  showScreen('screenLogin');
-}
+    await sb.auth.signOut();
+    clients = [];
+    showScreen('screenLogin');
+  }
+
   async function doLogin() {
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
@@ -685,7 +688,7 @@ body {
         <div>
           <p class="client-card-name">${highlight(c.name || c.kana, searchQuery)}</p>
           <p class="client-card-meta" style="letter-spacing:0.05em;margin-bottom:2px;">${highlight(c.kana || '', searchQuery)}</p>
-          <p class="client-card-meta">${c.records.length} RECORDS${c.records.length > 0 ? ' · ' + c.records[c.records.length-1].date : ''}</p>
+          <p class="client-card-meta">${c.records.length > 0 ? c.records[c.records.length-1].date : ''}</p>
           ${c.memo ? `<p class="client-card-memo-preview">${c.memo}</p>` : ''}
         </div>
         <span class="client-arrow">›</span>
@@ -779,23 +782,57 @@ body {
   }
 
   function handlePhotoSelect(input) {
-    Array.from(input.files).forEach(file => {
+    const remaining = 6 - pendingPhotos.length;
+    if (remaining <= 0) { alert('写真は6枚までです'); input.value = ''; return; }
+    Array.from(input.files).slice(0, remaining).forEach(file => {
       if (!file.type.startsWith('image/')) return;
       const reader = new FileReader();
-      reader.onload = e => { pendingPhotos.push(e.target.result); renderPhotoPreview('photoPreviewGrid', pendingPhotos, 'new'); };
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX = 800;
+          let w = img.width, h = img.height;
+          if (w > h && w > MAX) { h = h * MAX / w; w = MAX; }
+          else if (h > MAX) { w = w * MAX / h; h = MAX; }
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          pendingPhotos.push(canvas.toDataURL('image/jpeg', 0.7));
+          renderPhotoPreview('photoPreviewGrid', pendingPhotos, 'new');
+        };
+        img.src = e.target.result;
+      };
       reader.readAsDataURL(file);
     });
     input.value = '';
   }
+
   function handlePhotoSelectEdit(input) {
-    Array.from(input.files).forEach(file => {
+    const remaining = 6 - pendingPhotosEdit.length;
+    if (remaining <= 0) { alert('写真は6枚までです'); input.value = ''; return; }
+    Array.from(input.files).slice(0, remaining).forEach(file => {
       if (!file.type.startsWith('image/')) return;
       const reader = new FileReader();
-      reader.onload = e => { pendingPhotosEdit.push(e.target.result); renderPhotoPreview('photoPreviewGridEdit', pendingPhotosEdit, 'edit'); };
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX = 800;
+          let w = img.width, h = img.height;
+          if (w > h && w > MAX) { h = h * MAX / w; w = MAX; }
+          else if (h > MAX) { w = w * MAX / h; h = MAX; }
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          pendingPhotosEdit.push(canvas.toDataURL('image/jpeg', 0.7));
+          renderPhotoPreview('photoPreviewGridEdit', pendingPhotosEdit, 'edit');
+        };
+        img.src = e.target.result;
+      };
       reader.readAsDataURL(file);
     });
     input.value = '';
   }
+
   function renderPhotoPreview(gridId, photos, mode) {
     document.getElementById(gridId).innerHTML = photos.map((p, i) => `
       <div class="photo-preview-item">
@@ -1086,7 +1123,7 @@ body {
         if (parseInt(match[1]) === year && parseInt(match[2]) === month + 1) {
           const day = parseInt(match[3]);
           if (!map[day]) map[day] = [];
-          map[day].push({ name: c.name || c.kana, menu: r.menu, clientId: c.id,  });
+          map[day].push({ name: c.name || c.kana, menu: r.menu, clientId: c.id });
         }
       });
     });
@@ -1133,8 +1170,6 @@ body {
     `).join('');
     resultEl.style.display = 'block';
   }
-
-  // 起動時はsb.auth.getSessionで制御
 </script>
 </body>
 </html>
