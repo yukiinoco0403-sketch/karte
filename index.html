@@ -55,8 +55,8 @@ body {
 .home-title { font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 0.5em; color: rgba(42,32,24,0.4); text-transform: uppercase; margin-bottom: 6px; }
 .home-brand { font-family: 'Jost', sans-serif; font-size: 36px; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0; line-height: 1; }
 .home-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-.btn-sales { background: transparent; border: 1px solid var(--accent); color: #333; padding: 7px 14px; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.15em; cursor: pointer; border-radius: 2px; font-weight: 400; text-transform: uppercase; white-space: nowrap; }
-.btn-calendar { background: transparent; border: 1px solid var(--accent); padding: 7px 10px; cursor: pointer; border-radius: 2px; font-size: 16px; line-height: 1; display: flex; align-items: center; }
+.btn-sales { background: var(--accent); border: none; color: white; padding: 10px 24px; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.15em; cursor: pointer; border-radius: 2px; font-weight: 500; text-transform: uppercase; white-space: nowrap; }
+.btn-color-icon { background: transparent; border: 1px solid var(--accent); padding: 8px 10px; cursor: pointer; border-radius: 2px; font-size: 16px; line-height: 1; display: flex; align-items: center; }
 
 .sales-day { background: var(--surface); border: 1px solid #888; margin-bottom: 10px; border-radius: 2px; overflow: hidden; animation: fadeUp 0.25s ease both; }
 .sales-day-header { background: var(--header-bg); padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
@@ -242,9 +242,8 @@ body {
     <div class="home-header-row">
       <h1 class="home-brand">KARTE</h1>
       <div style="display:flex;align-items:center;gap:10px;">
-        <button class="btn-calendar" onclick="openCalendar()">📅</button>
+        <button class="btn-color-icon" onclick="openColorSheet()">🎨</button>
         <button class="btn-sales" onclick="showSales()">SALES</button>
-        <button class="btn-sales" onclick="openColorSheet()">COLOR</button>
       </div>
     </div>
     <div class="search-wrap">
@@ -266,8 +265,10 @@ body {
 <div class="screen" id="screenSalesMonth">
   <div class="detail-header">
     <div class="detail-nav">
-      <button class="btn-back" onclick="goHome()">←</button>
-      <span class="detail-nav-title">Client Data</span>
+      <div onclick="goHome()" style="display:flex;align-items:center;gap:8px;cursor:pointer;flex:1;padding:8px 0;">
+        <button class="btn-back" style="pointer-events:none;">←</button>
+        <span class="detail-nav-title">Client Data</span>
+      </div>
       <p style="font-family:'Jost',sans-serif;font-size:22px;font-weight:600;color:#333;letter-spacing:0.08em;">SALES</p>
     </div>
   </div>
@@ -280,8 +281,10 @@ body {
 <div class="screen" id="screenSales">
   <div class="detail-header">
     <div class="detail-nav">
-      <button class="btn-back" onclick="showSalesMonth()">←</button>
-      <span class="detail-nav-title" id="salesMonthLabel">Sales</span>
+      <div onclick="showSalesMonth()" style="display:flex;align-items:center;gap:8px;cursor:pointer;flex:1;padding:8px 0;">
+        <button class="btn-back" style="pointer-events:none;">←</button>
+        <span class="detail-nav-title" id="salesMonthLabel">Sales</span>
+      </div>
     </div>
     <div class="client-info-fixed">
       <p class="client-info-name" id="salesTotalLabel">Total ¥0</p>
@@ -297,8 +300,10 @@ body {
 <div class="screen" id="screenDetail">
   <div class="detail-header">
     <div class="detail-nav">
-      <button class="btn-back" onclick="goHome()">←</button>
-      <span class="detail-nav-title">Client Detail</span>
+      <div onclick="goHome()" style="display:flex;align-items:center;gap:8px;cursor:pointer;flex:1;padding:8px 0;">
+        <button class="btn-back" style="pointer-events:none;">←</button>
+        <span class="detail-nav-title">Client Detail</span>
+      </div>
       <button class="btn-edit-nav" onclick="openEditClientSheet()">Edit</button>
     </div>
     <div class="client-info-fixed">
