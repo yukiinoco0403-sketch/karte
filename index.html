@@ -453,6 +453,40 @@ body {
   <img id="photoModalImg" src="" alt="">
 </div>
 
+<!-- ログイン画面 -->
+<div class="screen" id="screenLogin" style="background:var(--header-bg);justify-content:center;align-items:center;padding:40px 32px;">
+  <p style="font-family:'Jost',sans-serif;font-size:11px;font-weight:300;letter-spacing:0.5em;color:rgba(42,32,24,0.4);text-transform:uppercase;margin-bottom:8px;">personal</p>
+  <h1 style="font-family:'Jost',sans-serif;font-size:48px;font-weight:600;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:48px;">KARTE</h1>
+  
+  <div id="loginForm" style="width:100%;">
+    <div style="margin-bottom:16px;">
+      <label style="display:block;font-size:9px;letter-spacing:0.25em;color:#888;font-family:'Jost',sans-serif;font-weight:400;text-transform:uppercase;margin-bottom:6px;">Email</label>
+      <input type="email" id="loginEmail" placeholder="example@email.com" style="width:100%;border:1px solid #888;background:white;padding:14px;font-family:'Jost',sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;">
+    </div>
+    <div style="margin-bottom:24px;">
+      <label style="display:block;font-size:9px;letter-spacing:0.25em;color:#888;font-family:'Jost',sans-serif;font-weight:400;text-transform:uppercase;margin-bottom:6px;">Password</label>
+      <input type="password" id="loginPassword" placeholder="••••••" style="width:100%;border:1px solid #888;background:white;padding:14px;font-family:'Jost',sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;">
+    </div>
+    <button onclick="doLogin()" style="width:100%;background:var(--accent);border:none;color:white;padding:15px;font-family:'Jost',sans-serif;font-size:14px;letter-spacing:0.15em;cursor:pointer;border-radius:2px;font-weight:500;text-transform:uppercase;margin-bottom:12px;">LOGIN</button>
+    <button onclick="showSignup()" style="width:100%;background:transparent;border:1px solid var(--accent);color:var(--accent);padding:15px;font-family:'Jost',sans-serif;font-size:14px;letter-spacing:0.15em;cursor:pointer;border-radius:2px;font-weight:400;text-transform:uppercase;">新規登録</button>
+    <p id="loginError" style="color:#c0392b;font-size:12px;text-align:center;margin-top:12px;font-family:'Jost',sans-serif;"></p>
+  </div>
+
+  <div id="signupForm" style="width:100%;display:none;">
+    <div style="margin-bottom:16px;">
+      <label style="display:block;font-size:9px;letter-spacing:0.25em;color:#888;font-family:'Jost',sans-serif;font-weight:400;text-transform:uppercase;margin-bottom:6px;">Email</label>
+      <input type="email" id="signupEmail" placeholder="example@email.com" style="width:100%;border:1px solid #888;background:white;padding:14px;font-family:'Jost',sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;">
+    </div>
+    <div style="margin-bottom:24px;">
+      <label style="display:block;font-size:9px;letter-spacing:0.25em;color:#888;font-family:'Jost',sans-serif;font-weight:400;text-transform:uppercase;margin-bottom:6px;">Password（6文字以上）</label>
+      <input type="password" id="signupPassword" placeholder="••••••" style="width:100%;border:1px solid #888;background:white;padding:14px;font-family:'Jost',sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;">
+    </div>
+    <button onclick="doSignup()" style="width:100%;background:var(--accent);border:none;color:white;padding:15px;font-family:'Jost',sans-serif;font-size:14px;letter-spacing:0.15em;cursor:pointer;border-radius:2px;font-weight:500;text-transform:uppercase;margin-bottom:12px;">登録する</button>
+    <button onclick="showLogin()" style="width:100%;background:transparent;border:1px solid var(--accent);color:var(--accent);padding:15px;font-family:'Jost',sans-serif;font-size:14px;letter-spacing:0.15em;cursor:pointer;border-radius:2px;font-weight:400;text-transform:uppercase;">ログインへ戻る</button>
+    <p id="signupMsg" style="color:#333;font-size:12px;text-align:center;margin-top:12px;font-family:'Jost',sans-serif;"></p>
+  </div>
+</div>
+
 <!-- カラー選択シート -->
 <div class="sheet-overlay" id="sheetColor">
   <div class="sheet">
@@ -501,9 +535,77 @@ body {
     });
     openSheet('sheetColor');
   }
-  // 起動時に保存済みテーマを適用
   const savedTheme = localStorage.getItem('karte_theme') || 'green';
   document.body.className = 'theme-' + savedTheme;
+
+  // ログイン・認証
+  let currentUser = null;
+
+  function showLogin() {
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('signupForm').style.display = 'none';
+  }
+  function showSignup() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('signupForm').style.display = 'block';
+  }
+
+  async function doLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) {
+      document.getElementById('loginError').textContent = 'メールアドレスまたはパスワードが間違っています';
+      return;
+    }
+    currentUser = data.user;
+    await loadFromSupabase();
+    showScreen('screenHome');
+    renderHome();
+  }
+
+  async function doSignup() {
+    const email = document.getElementById('signupEmail').value.trim();
+    const password = document.getElementById('signupPassword').value;
+    const { error } = await sb.auth.signUp({ email, password });
+    if (error) {
+      document.getElementById('signupMsg').textContent = '登録に失敗しました: ' + error.message;
+      document.getElementById('signupMsg').style.color = '#c0392b';
+      return;
+    }
+    document.getElementById('signupMsg').textContent = '確認メールを送信しました。メールを確認してください。';
+    document.getElementById('signupMsg').style.color = '#333';
+  }
+
+  async function loadFromSupabase() {
+    if (!currentUser) return;
+    const { data: clientsData } = await sb.from('clients').select('*').eq('user_id', currentUser.id);
+    if (!clientsData) return;
+    const { data: recordsData } = await sb.from('records').select('*');
+    clients = clientsData.map(c => ({
+      ...c,
+      records: (recordsData || []).filter(r => r.client_id === c.id).map(r => ({
+        ...r,
+        timeStart: r.time_start,
+        timeEnd: r.time_end,
+        photos: r.photos ? JSON.parse(r.photos) : []
+      }))
+    }));
+    localStorage.setItem('karte_v4', JSON.stringify(clients));
+  }
+
+  // 起動時にセッション確認
+  sb.auth.getSession().then(({ data: { session } }) => {
+    if (session) {
+      currentUser = session.user;
+      loadFromSupabase().then(() => {
+        showScreen('screenHome');
+        renderHome();
+      });
+    } else {
+      showScreen('screenLogin');
+    }
+  });
 
   let clients = JSON.parse(localStorage.getItem('karte_v4') || '[]');
   let currentClientId = null;
@@ -513,12 +615,13 @@ body {
   let pendingPhotos = [];
   let pendingPhotosEdit = [];
 
-  // Supabase保存
   async function save() {
     localStorage.setItem('karte_v4', JSON.stringify(clients));
+    if (!currentUser) return;
     for (const c of clients) {
       await sb.from('clients').upsert({
         id: c.id,
+        user_id: currentUser.id,
         name: c.name || '',
         kana: c.kana || '',
         memo: c.memo || ''
@@ -1027,7 +1130,7 @@ body {
     resultEl.style.display = 'block';
   }
 
-  renderHome();
+  // 起動時はsb.auth.getSessionで制御
 </script>
 </body>
 </html>
