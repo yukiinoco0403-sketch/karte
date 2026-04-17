@@ -523,7 +523,12 @@ body {
   }
 
   function goHome() { showScreen('screenHome'); renderHome(); }
-  function openClient(id) { currentClientId = id; showScreen('screenDetail'); renderDetail(); }
+  function openClient(id) { 
+  currentClientId = id; 
+  showScreen('screenDetail'); 
+  renderDetail(); 
+  setTimeout(() => { window.scrollTo(0, 120); }, 50);
+}
 
   function buildRecordHTML(r, realIndex, animDelay) {
     const photosHTML = r.photos && r.photos.length > 0
