@@ -13,10 +13,28 @@
   --border: #e8ddd4;
   --accent: #0ecf8f;
   --accent-light: #e2e4d8;
+  --header-bg: #e2e4d8;
   --text: #333333;
   --text-muted: #888888;
   --danger: #c0392b;
 }
+
+.theme-green  { --accent: #0ecf8f; --accent-light: #e2e4d8; --header-bg: #e2e4d8; }
+.theme-blue   { --accent: #476adc; --accent-light: #e5e6de; --header-bg: #e5e6de; }
+.theme-purple { --accent: #6814f9; --accent-light: #ddd0cb; --header-bg: #ddd0cb; }
+.theme-pink   { --accent: #d460c9; --accent-light: #e2e5de; --header-bg: #e2e5de; }
+.theme-red    { --accent: #c74455; --accent-light: #dbd7d0; --header-bg: #dbd7d0; }
+
+.color-picker { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+.color-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: transform 0.15s; flex-shrink: 0; }
+.color-dot:active { transform: scale(0.9); }
+.color-dot.active { border-color: white; box-shadow: 0 0 0 2px var(--accent); }
+
+/* カラーシート */
+.color-sheet-dots { display: flex; justify-content: center; gap: 24px; padding: 32px 24px; }
+.color-sheet-dot { width: 52px; height: 52px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: transform 0.15s; }
+.color-sheet-dot:active { transform: scale(0.9); }
+.color-sheet-dot.active { border-color: white; box-shadow: 0 0 0 3px var(--accent); }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
@@ -33,15 +51,15 @@ body {
 .screen.active { display: flex; }
 
 /* HOME */
-.home-header { background: #e2e4d8; padding: 52px 24px 20px; }
+.home-header { background: var(--header-bg); padding: 52px 24px 20px; }
 .home-title { font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 0.5em; color: rgba(42,32,24,0.4); text-transform: uppercase; margin-bottom: 6px; }
-.home-brand { font-family: 'Jost', sans-serif; font-size: 36px; font-weight: 600; color: #0ecf8f; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0; line-height: 1; }
+.home-brand { font-family: 'Jost', sans-serif; font-size: 36px; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0; line-height: 1; }
 .home-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-.btn-sales { background: transparent; border: 1px solid #0ecf8f; color: #333; padding: 7px 14px; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.15em; cursor: pointer; border-radius: 2px; font-weight: 400; text-transform: uppercase; white-space: nowrap; }
-.btn-calendar { background: transparent; border: 1px solid #0ecf8f; padding: 7px 10px; cursor: pointer; border-radius: 2px; font-size: 16px; line-height: 1; display: flex; align-items: center; }
+.btn-sales { background: transparent; border: 1px solid var(--accent); color: #333; padding: 7px 14px; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.15em; cursor: pointer; border-radius: 2px; font-weight: 400; text-transform: uppercase; white-space: nowrap; }
+.btn-calendar { background: transparent; border: 1px solid var(--accent); padding: 7px 10px; cursor: pointer; border-radius: 2px; font-size: 16px; line-height: 1; display: flex; align-items: center; }
 
 .sales-day { background: var(--surface); border: 1px solid #888; margin-bottom: 10px; border-radius: 2px; overflow: hidden; animation: fadeUp 0.25s ease both; }
-.sales-day-header { background: #e2e4d8; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
+.sales-day-header { background: var(--header-bg); padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
 .sales-day-date { font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.15em; font-weight: 400; color: #333; }
 .sales-day-count { font-family: 'Jost', sans-serif; font-size: 10px; color: #888; font-weight: 300; }
 .sales-day-body { padding: 14px 16px; }
@@ -52,25 +70,25 @@ body {
 .sales-day-amount { font-family: 'Jost', sans-serif; font-size: 14px; color: #333; font-weight: 400; }
 .sales-day-total { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(14,207,143,0.08); border-top: 1px solid rgba(14,207,143,0.2); }
 .sales-day-total-label { font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.2em; color: #888; text-transform: uppercase; }
-.sales-day-total-val { font-family: 'Jost', sans-serif; font-size: 16px; color: #0ecf8f; font-weight: 500; }
-.sales-month-item { background: var(--surface); border: 1px solid #0ecf8f; padding: 18px 20px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border-radius: 2px; animation: fadeUp 0.25s ease both; }
-.sales-month-item:active { background: #e2e4d8; }
+.sales-day-total-val { font-family: 'Jost', sans-serif; font-size: 16px; color: var(--accent); font-weight: 500; }
+.sales-month-item { background: var(--surface); border: 1px solid var(--accent); padding: 18px 20px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border-radius: 2px; animation: fadeUp 0.25s ease both; }
+.sales-month-item:active { background: var(--header-bg); }
 .sales-month-label { font-family: 'Jost', sans-serif; font-size: 17px; font-weight: 500; color: #333; letter-spacing: 0.05em; }
 .sales-month-sub { font-family: 'Jost', sans-serif; font-size: 11px; color: #888; font-weight: 300; margin-top: 3px; }
-.sales-month-arrow { color: #0ecf8f; font-size: 22px; font-weight: 300; }
+.sales-month-arrow { color: var(--accent); font-size: 22px; font-weight: 300; }
 
 .search-wrap { padding: 0 24px 20px; }
 .search-input-wrap { position: relative; }
-.search-input { width: 100%; background: rgba(255,255,255,0.6); border: 1px solid #0ecf8f; border-radius: 24px; padding: 10px 16px 10px 38px; font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 300; color: var(--text); outline: none; -webkit-appearance: none; letter-spacing: 0.05em; }
+.search-input { width: 100%; background: rgba(255,255,255,0.6); border: 1px solid var(--accent); border-radius: 24px; padding: 10px 16px 10px 38px; font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 300; color: var(--text); outline: none; -webkit-appearance: none; letter-spacing: 0.05em; }
 .search-input::placeholder { color: rgba(42,32,24,0.35); }
-.search-input:focus { border-color: #0ecf8f; }
+.search-input:focus { border-color: var(--accent); }
 .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: rgba(42,32,24,0.35); font-size: 14px; pointer-events: none; }
 .search-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: rgba(42,32,24,0.4); font-size: 16px; cursor: pointer; display: none; line-height: 1; padding: 2px; }
 
-.home-body { padding: 20px 20px 100px; flex: 1; background: #e2e4d8; }
+.home-body { padding: 20px 20px 100px; flex: 1; background: var(--header-bg); }
 .section-label { font-size: 10px; letter-spacing: 0.3em; color: #888; font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 14px; }
 
-.client-card { background: var(--surface); border: 1px solid #0ecf8f; padding: 18px 20px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border-radius: 2px; animation: fadeUp 0.3s ease both; }
+.client-card { background: var(--surface); border: 1px solid var(--accent); padding: 18px 20px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border-radius: 2px; animation: fadeUp 0.3s ease both; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 .client-card:active { background: var(--accent-light); }
 .client-card-name { font-size: 17px; font-weight: 500; margin-bottom: 4px; letter-spacing: 0.02em; }
@@ -87,20 +105,20 @@ body {
 .fab:active { transform: scale(0.92); }
 
 /* DETAIL */
-.detail-header { background: #e2e4d8; position: sticky; top: 0; z-index: 40; }
+.detail-header { background: var(--header-bg); position: sticky; top: 0; z-index: 40; }
 .detail-nav { display: flex; align-items: center; padding: 52px 20px 16px; gap: 12px; }
-.btn-back { background: transparent; border: none; color: #0ecf8f; font-size: 24px; cursor: pointer; padding: 4px 8px 4px 0; line-height: 1; }
+.btn-back { background: transparent; border: none; color: var(--accent); font-size: 24px; cursor: pointer; padding: 4px 8px 4px 0; line-height: 1; }
 .detail-nav-title { font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.3em; color: #888; flex: 1; text-transform: uppercase; font-weight: 400; }
-.btn-edit-nav { background: transparent; border: 1px solid #0ecf8f; color: #0ecf8f; padding: 6px 14px; font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.15em; cursor: pointer; text-transform: uppercase; }
+.btn-edit-nav { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 6px 14px; font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.15em; cursor: pointer; text-transform: uppercase; }
 
-.client-info-fixed { background: #e2e4d8; padding: 0 20px 20px; border-bottom: 2px solid #0ecf8f; }
+.client-info-fixed { background: var(--header-bg); padding: 0 20px 20px; border-bottom: 2px solid var(--accent); }
 .client-info-name { font-size: 26px; font-weight: 500; color: var(--text); letter-spacing: 0.04em; margin-bottom: 8px; }
 .client-info-memo { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 12px; color: var(--text-muted); line-height: 1.7; }
 .client-info-memo.empty { color: var(--text-muted); font-style: italic; }
 
 .detail-body { flex: 1; padding: 20px 20px 100px; }
 .records-top { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
-.btn-add-record { background: #0ecf8f; border: none; color: white; padding: 13px 18px; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.15em; cursor: pointer; border-radius: 2px; text-transform: uppercase; font-weight: 400; width: 100%; }
+.btn-add-record { background: var(--accent); border: none; color: white; padding: 13px 18px; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.15em; cursor: pointer; border-radius: 2px; text-transform: uppercase; font-weight: 400; width: 100%; }
 
 .year-current-label { font-size: 10px; letter-spacing: 0.3em; color: #888; font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 12px; margin-top: 4px; }
 .year-accordion { border: 1px solid var(--accent); border-radius: 2px; margin-bottom: 12px; overflow: hidden; }
@@ -116,11 +134,11 @@ body {
 .year-accordion-body .record-item { margin: 8px 10px; }
 
 .record-item { background: var(--surface); border: 1px solid #888; margin-bottom: 12px; border-radius: 2px; overflow: hidden; animation: fadeUp 0.25s ease both; }
-.record-item-header { background: #e2e4d8; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
+.record-item-header { background: var(--header-bg); padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
 .record-item-date { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.15em; font-weight: 400; color: #333; }
 .record-item-actions { display: flex; gap: 8px; align-items: center; }
 .record-item-num { font-family: 'Jost', sans-serif; font-size: 10px; color: #888; font-weight: 300; }
-.btn-record-edit { background: transparent; border: 1px solid #0ecf8f; color: #0ecf8f; padding: 3px 10px; font-family: 'Jost', sans-serif; font-size: 9px; letter-spacing: 0.1em; cursor: pointer; border-radius: 2px; text-transform: uppercase; }
+.btn-record-edit { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 3px 10px; font-family: 'Jost', sans-serif; font-size: 9px; letter-spacing: 0.1em; cursor: pointer; border-radius: 2px; text-transform: uppercase; }
 .btn-record-delete { background: transparent; border: none; color: #aaa; font-size: 16px; cursor: pointer; padding: 2px 4px; line-height: 1; }
 
 .record-item-body { padding: 16px; }
@@ -144,20 +162,20 @@ body {
 .sheet-overlay.open { display: flex; }
 .sheet { background: var(--surface); width: 100%; max-height: 92vh; overflow-y: auto; border-radius: 16px 16px 0 0; padding-bottom: 40px; animation: slideUp 0.28s cubic-bezier(0.32, 0.72, 0, 1); }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-.sheet-handle { width: 36px; height: 4px; background: #0ecf8f; border-radius: 2px; margin: 12px auto 0; opacity: 0.5; }
+.sheet-handle { width: 36px; height: 4px; background: var(--accent); border-radius: 2px; margin: 12px auto 0; opacity: 0.5; }
 .sheet-title { font-size: 10px; letter-spacing: 0.3em; color: var(--text-muted); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; padding: 20px 24px 0; margin-bottom: 20px; }
 
 .form-group { padding: 0 24px; margin-bottom: 16px; }
 .form-group label { display: block; font-size: 9px; letter-spacing: 0.25em; color: var(--text-muted); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 6px; }
-.form-group input, .form-group textarea { width: 100%; border: 1px solid #888; background: #e2e4d8; padding: 12px 14px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 15px; color: var(--text); outline: none; border-radius: 2px; resize: vertical; -webkit-appearance: none; }
+.form-group input, .form-group textarea { width: 100%; border: 1px solid #888; background: var(--header-bg); padding: 12px 14px; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 15px; color: var(--text); outline: none; border-radius: 2px; resize: vertical; -webkit-appearance: none; }
 .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
 .form-group textarea { min-height: 80px; }
 .divider { height: 1px; background: #888; margin: 8px 24px 16px; opacity: 0.3; }
 
 .photo-upload-area { padding: 0 24px; margin-bottom: 16px; }
 .photo-upload-label { display: block; font-size: 9px; letter-spacing: 0.25em; color: var(--text-muted); font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 8px; }
-.photo-upload-btn { width: 100%; border: 1.5px dashed #888; background: #e2e4d8; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; border-radius: 2px; transition: border-color 0.2s; }
-.photo-upload-btn:active { border-color: #0ecf8f; }
+.photo-upload-btn { width: 100%; border: 1.5px dashed #888; background: var(--header-bg); padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; border-radius: 2px; transition: border-color 0.2s; }
+.photo-upload-btn:active { border-color: var(--accent); }
 .photo-upload-icon { font-size: 24px; opacity: 0.4; }
 .photo-upload-text { font-family: 'Jost', sans-serif; font-size: 12px; color: var(--text-muted); font-weight: 300; letter-spacing: 0.05em; }
 .photo-input { display: none; }
@@ -167,7 +185,7 @@ body {
 .photo-preview-remove { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; color: white; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; }
 
 .sheet-actions { padding: 20px 24px 0; display: flex; gap: 10px; }
-.btn-sheet-cancel { flex: 1; background: transparent; border: 1px solid #0ecf8f; padding: 13px; font-family: 'Jost', sans-serif; font-size: 14px; color: #0ecf8f; cursor: pointer; border-radius: 2px; font-weight: 300; }
+.btn-sheet-cancel { flex: 1; background: transparent; border: 1px solid var(--accent); padding: 13px; font-family: 'Jost', sans-serif; font-size: 14px; color: var(--accent); cursor: pointer; border-radius: 2px; font-weight: 300; }
 .btn-sheet-save { flex: 2; background: var(--accent); border: none; padding: 13px; font-family: 'Jost', sans-serif; font-size: 14px; color: white; cursor: pointer; letter-spacing: 0.1em; border-radius: 2px; font-weight: 400; }
 
 .danger-zone { margin: 24px 24px 0; padding: 16px; border: 1px solid #f0d0cc; border-radius: 2px; }
@@ -194,15 +212,15 @@ body {
 .cal-sheet { background: var(--surface); width: 100%; border-radius: 16px 16px 0 0; padding: 20px 20px 40px; animation: slideUp 0.28s cubic-bezier(0.32,0.72,0,1); }
 .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .cal-month-label { font-family: 'Jost', sans-serif; font-size: 15px; font-weight: 500; color: #333; letter-spacing: 0.05em; }
-.cal-nav { background: transparent; border: none; color: #0ecf8f; font-size: 20px; cursor: pointer; padding: 4px 10px; }
+.cal-nav { background: transparent; border: none; color: var(--accent); font-size: 20px; cursor: pointer; padding: 4px 10px; }
 .cal-close { background: transparent; border: none; color: #aaa; font-size: 20px; cursor: pointer; padding: 4px; line-height: 1; }
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
 .cal-dow { font-family: 'Jost', sans-serif; font-size: 10px; color: #aaa; text-align: center; padding: 4px 0; letter-spacing: 0.1em; }
 .cal-cell { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; border-radius: 4px; position: relative; }
 .cal-cell:active { background: var(--accent-light); }
 .cal-cell.empty { cursor: default; }
-.cal-cell.today .cal-num { background: #0ecf8f; color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
-.cal-cell.has-record .cal-dot { width: 4px; height: 4px; background: #0ecf8f; border-radius: 50%; margin-top: 2px; }
+.cal-cell.today .cal-num { background: var(--accent); color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
+.cal-cell.has-record .cal-dot { width: 4px; height: 4px; background: var(--accent); border-radius: 50%; margin-top: 2px; }
 .cal-num { font-family: 'Jost', sans-serif; font-size: 13px; color: #333; font-weight: 300; }
 .cal-result { margin-top: 16px; border-top: 1px solid var(--border); padding-top: 14px; }
 .cal-result-label { font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.25em; color: #888; text-transform: uppercase; margin-bottom: 10px; }
@@ -210,7 +228,7 @@ body {
 .cal-result-item:last-child { border-bottom: none; }
 .cal-result-name { font-family: 'Jost', sans-serif; font-size: 14px; color: #333; font-weight: 400; }
 .cal-result-menu { font-family: 'Jost', sans-serif; font-size: 11px; color: #888; font-weight: 300; margin-top: 2px; }
-.cal-result-arrow { color: #0ecf8f; font-size: 18px; }
+.cal-result-arrow { color: var(--accent); font-size: 18px; }
 </style>
 </head>
 <body>
@@ -224,6 +242,7 @@ body {
       <div style="display:flex;align-items:center;gap:10px;">
         <button class="btn-calendar" onclick="openCalendar()">📅</button>
         <button class="btn-sales" onclick="showSales()">SALES</button>
+        <button class="btn-sales" onclick="openColorSheet()">COLOR</button>
       </div>
     </div>
     <div class="search-wrap">
@@ -333,8 +352,8 @@ body {
   <div class="sheet">
     <div class="sheet-handle"></div>
     <p class="sheet-title">New Record</p>
-    <div class="form-group"><label>施術日 *</label><div style="display:flex;align-items:center;gap:4px;"><input type="number" id="inDateYear" min="2000" max="2099" style="width:72px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">年</span><input type="number" id="inDateMonth" min="1" max="12" style="width:52px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">月</span><input type="number" id="inDateDay" min="1" max="31" style="width:52px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">日</span></div></div>
-    <div class="form-group"><label>施術時間</label><div style="display:flex;align-items:center;gap:4px;"><input type="text" id="inTimeStart" maxlength="5" style="width:60px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="11:00"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">〜</span><input type="text" id="inTimeEnd" maxlength="5" style="width:60px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="13:00"></div></div>
+    <div class="form-group"><label>施術日 *</label><div style="display:flex;align-items:center;gap:4px;"><input type="number" id="inDateYear" min="2000" max="2099" style="width:72px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">年</span><input type="number" id="inDateMonth" min="1" max="12" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">月</span><input type="number" id="inDateDay" min="1" max="31" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">日</span></div></div>
+    <div class="form-group"><label>施術時間</label><div style="display:flex;align-items:center;gap:4px;"><input type="text" id="inTimeStart" maxlength="5" style="width:60px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="11:00"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">〜</span><input type="text" id="inTimeEnd" maxlength="5" style="width:60px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="13:00"></div></div>
     <div class="form-group"><label>施術メニュー</label><input type="text" id="inMenu" placeholder="例：カラー＋カット"></div>
     <div class="form-group"><label>金額</label><input type="text" id="inAmount" placeholder="例：12,000"></div>
     <div class="divider"></div>
@@ -365,8 +384,8 @@ body {
   <div class="sheet">
     <div class="sheet-handle"></div>
     <p class="sheet-title">Edit Record</p>
-    <div class="form-group"><label>施術日 *</label><div style="display:flex;align-items:center;gap:4px;"><input type="number" id="inEditDateYear" min="2000" max="2099" style="width:72px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">年</span><input type="number" id="inEditDateMonth" min="1" max="12" style="width:52px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">月</span><input type="number" id="inEditDateDay" min="1" max="31" style="width:52px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">日</span></div></div>
-    <div class="form-group"><label>施術時間</label><div style="display:flex;align-items:center;gap:4px;"><input type="text" id="inEditTimeStart" maxlength="5" style="width:60px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="11:00"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">〜</span><input type="text" id="inEditTimeEnd" maxlength="5" style="width:60px;border:1px solid #888;background:#e2e4d8;padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="13:00"></div></div>
+    <div class="form-group"><label>施術日 *</label><div style="display:flex;align-items:center;gap:4px;"><input type="number" id="inEditDateYear" min="2000" max="2099" style="width:72px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">年</span><input type="number" id="inEditDateMonth" min="1" max="12" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">月</span><input type="number" id="inEditDateDay" min="1" max="31" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">日</span></div></div>
+    <div class="form-group"><label>施術時間</label><div style="display:flex;align-items:center;gap:4px;"><input type="text" id="inEditTimeStart" maxlength="5" style="width:60px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="11:00"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">〜</span><input type="text" id="inEditTimeEnd" maxlength="5" style="width:60px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;" placeholder="13:00"></div></div>
     <div class="form-group"><label>施術メニュー</label><input type="text" id="inEditMenu"></div>
     <div class="form-group"><label>金額</label><input type="text" id="inEditAmount"></div>
     <div class="divider"></div>
@@ -427,6 +446,24 @@ body {
   <img id="photoModalImg" src="" alt="">
 </div>
 
+<!-- カラー選択シート -->
+<div class="sheet-overlay" id="sheetColor">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <p class="sheet-title">Select Color</p>
+    <div class="color-sheet-dots">
+      <div class="color-sheet-dot" id="sdot-green" style="background:#0ecf8f;" onclick="setTheme('green')"></div>
+      <div class="color-sheet-dot" id="sdot-blue" style="background:#476adc;" onclick="setTheme('blue')"></div>
+      <div class="color-sheet-dot" id="sdot-purple" style="background:#6814f9;" onclick="setTheme('purple')"></div>
+      <div class="color-sheet-dot" id="sdot-pink" style="background:#d460c9;" onclick="setTheme('pink')"></div>
+      <div class="color-sheet-dot" id="sdot-red" style="background:#c74455;" onclick="setTheme('red')"></div>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn-sheet-cancel" onclick="closeSheet('sheetColor')">CLOSE</button>
+    </div>
+  </div>
+</div>
+
 <!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -437,6 +474,29 @@ body {
 
 <script>
   const CURRENT_YEAR = new Date().getFullYear();
+
+  // テーマ切り替え
+  const themes = ['green','blue','purple','pink','red'];
+  function setTheme(theme) {
+    document.body.className = 'theme-' + theme;
+    localStorage.setItem('karte_theme', theme);
+    themes.forEach(t => {
+      const sdot = document.getElementById('sdot-' + t);
+      if (sdot) sdot.classList.toggle('active', t === theme);
+    });
+    closeSheet('sheetColor');
+  }
+  function openColorSheet() {
+    const current = localStorage.getItem('karte_theme') || 'green';
+    themes.forEach(t => {
+      const sdot = document.getElementById('sdot-' + t);
+      if (sdot) sdot.classList.toggle('active', t === current);
+    });
+    openSheet('sheetColor');
+  }
+  // 起動時に保存済みテーマを適用
+  const savedTheme = localStorage.getItem('karte_theme') || 'green';
+  document.body.className = 'theme-' + savedTheme;
 
   let clients = JSON.parse(localStorage.getItem('karte_v4') || '[]');
   let currentClientId = null;
@@ -642,7 +702,7 @@ body {
 
   function openSheet(id) { document.getElementById(id).classList.add('open'); }
   function closeSheet(id) { document.getElementById(id).classList.remove('open'); }
-  ['sheetNewClient','sheetEditClient','sheetNewRecord','sheetEditRecord'].forEach(id => {
+  ['sheetNewClient','sheetEditClient','sheetNewRecord','sheetEditRecord','sheetColor'].forEach(id => {
     document.getElementById(id).addEventListener('click', function(e) { if (e.target === this) closeSheet(id); });
   });
 
