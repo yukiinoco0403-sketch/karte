@@ -99,8 +99,8 @@ body {
 .client-info-memo.empty { color: var(--text-muted); font-style: italic; }
 
 .detail-body { flex: 1; padding: 20px 20px 100px; }
-.records-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-.btn-add-record { background: #0ecf8f; border: none; color: white; padding: 9px 18px; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.15em; cursor: pointer; border-radius: 2px; text-transform: uppercase; font-weight: 400; }
+.records-top { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.btn-add-record { background: #0ecf8f; border: none; color: white; padding: 13px 18px; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.15em; cursor: pointer; border-radius: 2px; text-transform: uppercase; font-weight: 400; width: 100%; }
 
 .year-current-label { font-size: 10px; letter-spacing: 0.3em; color: #888; font-family: 'Jost', sans-serif; font-weight: 400; text-transform: uppercase; margin-bottom: 12px; margin-top: 4px; }
 .year-accordion { border: 1px solid var(--accent); border-radius: 2px; margin-bottom: 12px; overflow: hidden; }
@@ -523,12 +523,7 @@ body {
   }
 
   function goHome() { showScreen('screenHome'); renderHome(); }
-  function openClient(id) { 
-  currentClientId = id; 
-  showScreen('screenDetail'); 
-  renderDetail(); 
-  setTimeout(() => { window.scrollTo(0, 120); }, 50);
-}
+  function openClient(id) { currentClientId = id; showScreen('screenDetail'); renderDetail(); }
 
   function buildRecordHTML(r, realIndex, animDelay) {
     const photosHTML = r.photos && r.photos.length > 0
