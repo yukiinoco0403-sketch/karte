@@ -652,7 +652,13 @@ body {
   }
 
   // 起動時セッション確認
+  const sessionTimeout = setTimeout(() => {
+    hideLoading();
+    showScreen('screenLogin');
+  }, 8000);
+
   sb.auth.getSession().then(async ({ data: { session } }) => {
+    clearTimeout(sessionTimeout);
     if (session) {
       currentUser = session.user;
       await loadFromSupabase();
@@ -663,6 +669,10 @@ body {
       hideLoading();
       showScreen('screenLogin');
     }
+  }).catch(() => {
+    clearTimeout(sessionTimeout);
+    hideLoading();
+    showScreen('screenLogin');
   });
 
   function saveLocal() {
@@ -1141,8 +1151,8 @@ body {
     });
     let grandTotal = 0, grandRetail = 0, grandCount = 0;
     dates.forEach(d => { byDate[d].forEach(r => { grandTotal += r.amount; grandRetail += r.retail; grandCount++; }); });
-    document.getElementById('salesTotalLabel').textContent = `技術 ¥${grandTotal.toLocaleString()}`;
-    document.getElementById('salesSubLabel').textContent = `店販 ¥${grandRetail.toLocaleString()} · ${grandCount}件`;
+    document.getElementById('salesTotalLabel').textContent = `技術 ¥${grandTotal.toLocaleString()} · ${grandCount}件`;
+    document.getElementById('salesSubLabel').textContent = grandRetail > 0 ? `店販 ¥${grandRetail.toLocaleString()}` : '';
     const el = document.getElementById('salesListEl');
     if (dates.length === 0) { el.innerHTML = '<div class="no-records">データがありません</div>'; return; }
     el.innerHTML = dates.map((date, i) => {
