@@ -30,7 +30,6 @@
 .color-dot:active { transform: scale(0.9); }
 .color-dot.active { border-color: white; box-shadow: 0 0 0 2px var(--accent); }
 
-/* カラーシート */
 .color-sheet-dots { display: flex; justify-content: center; gap: 24px; padding: 32px 24px; }
 .color-sheet-dot { width: 52px; height: 52px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: transform 0.15s; }
 .color-sheet-dot:active { transform: scale(0.9); }
@@ -50,7 +49,6 @@ body {
 .screen { display: none; min-height: 100vh; flex-direction: column; }
 .screen.active { display: flex; }
 
-/* HOME */
 .home-header { background: var(--header-bg); padding: 52px 24px 20px; }
 .home-title { font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 0.5em; color: rgba(42,32,24,0.4); text-transform: uppercase; margin-bottom: 6px; }
 .home-brand { font-family: 'Jost', sans-serif; font-size: 36px; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0; line-height: 1; }
@@ -104,7 +102,6 @@ body {
 .fab { position: fixed; bottom: 32px; right: 24px; width: 58px; height: 58px; background: var(--accent); border-radius: 50%; border: none; color: white; font-size: 28px; cursor: pointer; box-shadow: 0 4px 20px rgba(14,207,143,0.35); display: flex; align-items: center; justify-content: center; z-index: 50; transition: transform 0.15s; font-family: 'Jost', sans-serif; font-weight: 300; }
 .fab:active { transform: scale(0.92); }
 
-/* DETAIL */
 .detail-header { background: var(--header-bg); position: sticky; top: 0; z-index: 40; }
 .detail-nav { display: flex; align-items: center; padding: 52px 20px 16px; gap: 12px; }
 .btn-back { background: transparent; border: none; color: var(--accent); font-size: 24px; cursor: pointer; padding: 4px 8px 4px 0; line-height: 1; }
@@ -157,7 +154,6 @@ body {
 
 .no-records { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 12px; letter-spacing: 0.15em; line-height: 2.2; font-weight: 300; }
 
-/* SHEETS */
 .sheet-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; align-items: flex-end; }
 .sheet-overlay.open { display: flex; }
 .sheet { background: var(--surface); width: 100%; max-height: 92vh; overflow-y: auto; border-radius: 16px 16px 0 0; padding-bottom: 40px; animation: slideUp 0.28s cubic-bezier(0.32, 0.72, 0, 1); }
@@ -231,12 +227,32 @@ body {
 .cal-result-name { font-family: 'Jost', sans-serif; font-size: 14px; color: #333; font-weight: 400; }
 .cal-result-menu { font-family: 'Jost', sans-serif; font-size: 11px; color: #888; font-weight: 300; margin-top: 2px; }
 .cal-result-arrow { color: var(--accent); font-size: 18px; }
+
+/* ローディング */
+.loading-screen { position: fixed; inset: 0; background: var(--header-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 500; }
+.loading-screen.hidden { display: none; }
+.loading-brand { font-family: 'Jost', sans-serif; font-size: 36px; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 24px; }
+.loading-dots { display: flex; gap: 6px; }
+.loading-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: dotPulse 1.2s ease infinite; opacity: 0.3; }
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 </style>
 </head>
 <body>
 
+<!-- ローディング画面 -->
+<div class="loading-screen" id="loadingScreen">
+  <p class="loading-brand">KARTE</p>
+  <div class="loading-dots">
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+  </div>
+</div>
+
 <!-- HOME -->
-<div class="screen active" id="screenHome">
+<div class="screen" id="screenHome">
   <div class="home-header">
     <p class="home-title">personal</p>
     <div class="home-header-row">
@@ -362,7 +378,9 @@ body {
     <p class="sheet-title">New Record</p>
     <div class="form-group"><label>施術日 *</label><div style="display:flex;align-items:center;gap:4px;"><input type="number" id="inDateYear" min="2000" max="2099" style="width:72px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">年</span><input type="number" id="inDateMonth" min="1" max="12" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">月</span><input type="number" id="inDateDay" min="1" max="31" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">日</span></div></div>
     <div class="form-group"><label>施術メニュー</label><input type="text" id="inMenu" placeholder="例：カラー＋カット"></div>
-    <div class="form-group"><label>金額</label><input type="text" id="inAmount" placeholder="例：12,000"></div>
+    <div class="form-group"><label>金額（技術）</label><input type="text" id="inAmount" placeholder="例：12,000"></div>
+    <div class="form-group"><label>店販商品名</label><input type="text" id="inRetailName" placeholder="例：トリートメント、ヘアオイル"></div>
+    <div class="form-group"><label>店販金額</label><input type="text" id="inRetailAmount" placeholder="例：3,000"></div>
     <div class="divider"></div>
     <div class="form-group"><label>使用薬剤</label><textarea id="inAgent" placeholder="例：○○カラー 6OB + OX6%"></textarea></div>
     <div class="form-group"><label>施術内容</label><textarea id="inContent" placeholder="例：リタッチ3cm、毛先1cmカット"></textarea></div>
@@ -393,7 +411,9 @@ body {
     <p class="sheet-title">Edit Record</p>
     <div class="form-group"><label>施術日 *</label><div style="display:flex;align-items:center;gap:4px;"><input type="number" id="inEditDateYear" min="2000" max="2099" style="width:72px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">年</span><input type="number" id="inEditDateMonth" min="1" max="12" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">月</span><input type="number" id="inEditDateDay" min="1" max="31" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">日</span></div></div>
     <div class="form-group"><label>施術メニュー</label><input type="text" id="inEditMenu"></div>
-    <div class="form-group"><label>金額</label><input type="text" id="inEditAmount"></div>
+    <div class="form-group"><label>金額（技術）</label><input type="text" id="inEditAmount"></div>
+    <div class="form-group"><label>店販商品名</label><input type="text" id="inEditRetailName"></div>
+    <div class="form-group"><label>店販金額</label><input type="text" id="inEditRetailAmount"></div>
     <div class="divider"></div>
     <div class="form-group"><label>使用薬剤</label><textarea id="inEditAgent"></textarea></div>
     <div class="form-group"><label>施術内容</label><textarea id="inEditContent"></textarea></div>
@@ -468,7 +488,7 @@ body {
       <label style="display:block;font-size:9px;letter-spacing:0.25em;color:#888;font-family:'Jost',sans-serif;font-weight:400;text-transform:uppercase;margin-bottom:6px;">Password</label>
       <input type="password" id="loginPassword" placeholder="••••••" style="width:100%;border:1px solid #888;background:white;padding:14px;font-family:'Jost',sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;">
     </div>
-    <button onclick="doLogin()" style="width:100%;background:var(--accent);border:none;color:white;padding:15px;font-family:'Jost',sans-serif;font-size:14px;letter-spacing:0.15em;cursor:pointer;border-radius:2px;font-weight:500;text-transform:uppercase;margin-bottom:12px;">LOGIN</button>
+    <button id="loginBtn" onclick="doLogin()" style="width:100%;background:var(--accent);border:none;color:white;padding:15px;font-family:'Jost',sans-serif;font-size:14px;letter-spacing:0.15em;cursor:pointer;border-radius:2px;font-weight:500;text-transform:uppercase;margin-bottom:12px;">LOGIN</button>
     <button onclick="showSignup()" style="width:100%;background:transparent;border:1px solid var(--accent);color:var(--accent);padding:15px;font-family:'Jost',sans-serif;font-size:14px;letter-spacing:0.15em;cursor:pointer;border-radius:2px;font-weight:400;text-transform:uppercase;">新規登録</button>
     <p id="loginError" style="color:#c0392b;font-size:12px;text-align:center;margin-top:12px;font-family:'Jost',sans-serif;"></p>
   </div>
@@ -506,8 +526,8 @@ body {
   </div>
 </div>
 
-<!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
   const SUPABASE_URL = 'https://maburmoicqtoucdujhme.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1hYnVybW9pY3F0b3VjZHVqaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDYxNDUsImV4cCI6MjA5MTg4MjE0NX0.Sf5vs3fqripm1OiEeqN3PUCulj59PDmgiQQTyZmuaIk';
@@ -517,7 +537,7 @@ body {
 <script>
   const CURRENT_YEAR = new Date().getFullYear();
 
-  // テーマ切り替え
+  // テーマ
   const themes = ['green','blue','purple','pink','red'];
   function setTheme(theme) {
     document.body.className = 'theme-' + theme;
@@ -539,9 +559,22 @@ body {
   const savedTheme = localStorage.getItem('karte_theme') || 'green';
   document.body.className = 'theme-' + savedTheme;
 
-  // ログイン・認証
+  // 状態
   let currentUser = null;
+  let clients = [];
+  let currentClientId = null;
+  let editingRecordIndex = null;
+  let confirmCallback = null;
+  let searchQuery = '';
+  let pendingPhotos = [];
+  let pendingPhotosEdit = [];
 
+  // ローディング制御
+  function hideLoading() {
+    document.getElementById('loadingScreen').classList.add('hidden');
+  }
+
+  // ログイン
   function showLogin() {
     document.getElementById('loginForm').style.display = 'block';
     document.getElementById('signupForm').style.display = 'none';
@@ -554,21 +587,33 @@ body {
   async function doLogout() {
     await sb.auth.signOut();
     clients = [];
+    localStorage.removeItem('karte_v4');
+    hideLoading();
     showScreen('screenLogin');
   }
 
   async function doLogin() {
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
+    const btn = document.getElementById('loginBtn');
+    btn.textContent = '...';
+    btn.disabled = true;
+    document.getElementById('loginError').textContent = '';
+
     const { data, error } = await sb.auth.signInWithPassword({ email, password });
     if (error) {
       document.getElementById('loginError').textContent = 'メールアドレスまたはパスワードが間違っています';
+      btn.textContent = 'LOGIN';
+      btn.disabled = false;
       return;
     }
     currentUser = data.user;
     await loadFromSupabase();
+    hideLoading();
     showScreen('screenHome');
     renderHome();
+    btn.textContent = 'LOGIN';
+    btn.disabled = false;
   }
 
   async function doSignup() {
@@ -588,70 +633,73 @@ body {
     if (!currentUser) return;
     const { data: clientsData } = await sb.from('clients').select('*').eq('user_id', currentUser.id);
     if (!clientsData) return;
-    const { data: recordsData } = await sb.from('records').select('*');
+    const clientIds = clientsData.map(c => c.id);
+    const { data: recordsData } = clientIds.length > 0
+      ? await sb.from('records').select('*').in('client_id', clientIds)
+      : { data: [] };
     clients = clientsData.map(c => ({
       ...c,
       records: (recordsData || []).filter(r => r.client_id === c.id).map(r => ({
         ...r,
         timeStart: r.time_start,
         timeEnd: r.time_end,
+        retail_name: r.retail_name || '',
+        retail_amount: r.retail_amount || '',
         photos: r.photos ? JSON.parse(r.photos) : []
       }))
     }));
     localStorage.setItem('karte_v4', JSON.stringify(clients));
   }
 
-  // 起動時にセッション確認
-  sb.auth.getSession().then(({ data: { session } }) => {
+  // 起動時セッション確認
+  sb.auth.getSession().then(async ({ data: { session } }) => {
     if (session) {
       currentUser = session.user;
-      loadFromSupabase().then(() => {
-        showScreen('screenHome');
-        renderHome();
-      });
+      await loadFromSupabase();
+      hideLoading();
+      showScreen('screenHome');
+      renderHome();
     } else {
+      hideLoading();
       showScreen('screenLogin');
     }
   });
 
-  let clients = JSON.parse(localStorage.getItem('karte_v4') || '[]');
-  let currentClientId = null;
-  let editingRecordIndex = null;
-  let confirmCallback = null;
-  let searchQuery = '';
-  let pendingPhotos = [];
-  let pendingPhotosEdit = [];
-
-  async function save() {
+  function saveLocal() {
     localStorage.setItem('karte_v4', JSON.stringify(clients));
-    if (!currentUser) return;
-    for (const c of clients) {
-      await sb.from('clients').upsert({
-        id: c.id,
-        user_id: currentUser.id,
-        name: c.name || '',
-        kana: c.kana || '',
-        memo: c.memo || ''
-      });
-      for (const r of c.records) {
-        if (!r.id) r.id = Date.now().toString() + Math.random().toString(36).slice(2);
-        await sb.from('records').upsert({
-          id: r.id,
-          client_id: c.id,
-          date: r.date || '',
-          menu: r.menu || '',
-          amount: r.amount || '',
-          agent: r.agent || '',
-          content: r.content || '',
-          convo: r.convo || '',
-          note: r.note || '',
-          photos: JSON.stringify(r.photos || [])
-        });
-      }
-    }
   }
 
-  function getToday() { const d = new Date(); return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`; }
+  async function saveClient(client) {
+    saveLocal();
+    if (!currentUser) return;
+    await sb.from('clients').upsert({
+      id: client.id,
+      user_id: currentUser.id,
+      name: client.name || '',
+      kana: client.kana || '',
+      memo: client.memo || ''
+    });
+  }
+
+  async function saveRecord(clientId, record) {
+    saveLocal();
+    if (!currentUser) return;
+    if (!record.id) record.id = Date.now().toString() + Math.random().toString(36).slice(2);
+    await sb.from('records').upsert({
+      id: record.id,
+      client_id: clientId,
+      date: record.date || '',
+      menu: record.menu || '',
+      amount: record.amount || '',
+      retail_name: record.retail_name || '',
+      retail_amount: record.retail_amount || '',
+      agent: record.agent || '',
+      content: record.content || '',
+      convo: record.convo || '',
+      note: record.note || '',
+      photos: JSON.stringify(record.photos || [])
+    });
+  }
 
   function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -716,8 +764,12 @@ body {
         <div class="record-item-body">
           <div class="record-grid">
             <div class="record-row"><p class="record-row-label">Menu</p><p class="record-row-value ${r.menu ? 'jost' : 'empty'}">${r.menu || '未記入'}</p></div>
-            <div class="record-row"><p class="record-row-label">Amount</p><p class="${r.amount ? 'record-amount-val' : 'record-row-value empty'}">${r.amount ? '¥' + r.amount : '—'}</p></div>
+            <div class="record-row"><p class="record-row-label">技術売上</p><p class="${r.amount ? 'record-amount-val' : 'record-row-value empty'}">${r.amount ? '¥' + r.amount : '—'}</p></div>
           </div>
+          ${(r.retail_name || r.retail_amount) ? `<div class="record-grid">
+            <div class="record-row"><p class="record-row-label">店販</p><p class="record-row-value jost">${r.retail_name || '—'}</p></div>
+            <div class="record-row"><p class="record-row-label">店販売上</p><p class="${r.retail_amount ? 'record-amount-val' : 'record-row-value empty'}">${r.retail_amount ? '¥' + r.retail_amount : '—'}</p></div>
+          </div>` : ''}
           ${r.agent ? `<div class="record-row"><p class="record-row-label">薬剤</p><p class="record-row-value">${r.agent.replace(/\n/g,'<br>')}</p></div>` : ''}
           ${r.content ? `<div class="record-row"><p class="record-row-label">施術内容</p><p class="record-row-value">${r.content.replace(/\n/g,'<br>')}</p></div>` : ''}
           ${r.convo ? `<div class="record-row"><p class="record-row-label">会話メモ</p><p class="record-row-value">${r.convo.replace(/\n/g,'<br>')}</p></div>` : ''}
@@ -867,7 +919,7 @@ body {
     if (!kana) { alert('カタカナを入力してください'); return; }
     const c = { id: Date.now().toString(), name, kana, memo: document.getElementById('inClientMemo').value.trim(), records: [] };
     clients.push(c);
-    await save();
+    await saveClient(c);
     closeSheet('sheetNewClient');
     openClient(c.id);
   }
@@ -889,7 +941,7 @@ body {
     c.name = document.getElementById('inEditClientName').value.trim();
     c.kana = kana;
     c.memo = document.getElementById('inEditClientMemo').value.trim();
-    await save();
+    await saveClient(c);
     closeSheet('sheetEditClient');
     renderDetail();
   }
@@ -902,7 +954,7 @@ body {
       await sb.from('records').delete().eq('client_id', currentClientId);
       await sb.from('clients').delete().eq('id', currentClientId);
       clients = clients.filter(x => x.id !== currentClientId);
-      localStorage.setItem('karte_v4', JSON.stringify(clients));
+      saveLocal();
       closeConfirm();
       closeSheet('sheetEditClient');
       goHome();
@@ -917,7 +969,7 @@ body {
     document.getElementById('inDateYear').value = d.getFullYear();
     document.getElementById('inDateMonth').value = d.getMonth() + 1;
     document.getElementById('inDateDay').value = d.getDate();
-    ['inMenu','inAmount','inAgent','inContent','inConvo','inNote'].forEach(id => document.getElementById(id).value = '');
+    ['inMenu','inAmount','inRetailName','inRetailAmount','inAgent','inContent','inConvo','inNote'].forEach(id => document.getElementById(id).value = '');
     pendingPhotos = [];
     document.getElementById('photoPreviewGrid').innerHTML = '';
     openSheet('sheetNewRecord');
@@ -930,18 +982,24 @@ body {
     const month = document.getElementById('inDateMonth').value.trim();
     const day = document.getElementById('inDateDay').value.trim();
     if (!year || !month || !day) { alert('施術日を入力してください'); return; }
+    const saveBtn = document.querySelector('#sheetNewRecord .btn-sheet-save');
+    saveBtn.textContent = '保存中...'; saveBtn.disabled = true;
     c.records.push({
       id: Date.now().toString() + Math.random().toString(36).slice(2),
       date: buildDate(year, month, day),
       menu: document.getElementById('inMenu').value.trim(),
       amount: document.getElementById('inAmount').value.trim(),
+      retail_name: document.getElementById('inRetailName').value.trim(),
+      retail_amount: document.getElementById('inRetailAmount').value.trim(),
       agent: document.getElementById('inAgent').value.trim(),
       content: document.getElementById('inContent').value.trim(),
       convo: document.getElementById('inConvo').value.trim(),
       note: document.getElementById('inNote').value.trim(),
       photos: [...pendingPhotos]
     });
-    await save();
+    const newRecord = c.records[c.records.length - 1];
+    await saveRecord(c.id, newRecord);
+    saveBtn.textContent = '保存する'; saveBtn.disabled = false;
     closeSheet('sheetNewRecord');
     renderDetail();
   }
@@ -958,6 +1016,8 @@ body {
     document.getElementById('inEditDateDay').value = match ? match[3] : d.getDate();
     document.getElementById('inEditMenu').value = r.menu || '';
     document.getElementById('inEditAmount').value = r.amount || '';
+    document.getElementById('inEditRetailName').value = r.retail_name || '';
+    document.getElementById('inEditRetailAmount').value = r.retail_amount || '';
     document.getElementById('inEditAgent').value = r.agent || '';
     document.getElementById('inEditContent').value = r.content || '';
     document.getElementById('inEditConvo').value = r.convo || '';
@@ -975,15 +1035,20 @@ body {
     const month = document.getElementById('inEditDateMonth').value.trim();
     const day = document.getElementById('inEditDateDay').value.trim();
     if (!year || !month || !day) { alert('施術日を入力してください'); return; }
+    const editBtn = document.querySelector('#sheetEditRecord .btn-sheet-save');
+    editBtn.textContent = '保存中...'; editBtn.disabled = true;
     r.date = buildDate(year, month, day);
     r.menu = document.getElementById('inEditMenu').value.trim();
     r.amount = document.getElementById('inEditAmount').value.trim();
+    r.retail_name = document.getElementById('inEditRetailName').value.trim();
+    r.retail_amount = document.getElementById('inEditRetailAmount').value.trim();
     r.agent = document.getElementById('inEditAgent').value.trim();
     r.content = document.getElementById('inEditContent').value.trim();
     r.convo = document.getElementById('inEditConvo').value.trim();
     r.note = document.getElementById('inEditNote').value.trim();
     r.photos = [...pendingPhotosEdit];
-    await save();
+    await saveRecord(currentClientId, r);
+    editBtn.textContent = '保存する'; editBtn.disabled = false;
     closeSheet('sheetEditRecord');
     renderDetail();
   }
@@ -996,7 +1061,7 @@ body {
       const r = c.records[index];
       if (r.id) await sb.from('records').delete().eq('id', r.id);
       c.records.splice(index, 1);
-      localStorage.setItem('karte_v4', JSON.stringify(clients));
+      saveLocal();
       closeConfirm();
       renderDetail();
     };
@@ -1005,7 +1070,15 @@ body {
 
   function openConfirm() { document.getElementById('confirmDialog').classList.add('open'); }
   function closeConfirm() { document.getElementById('confirmDialog').classList.remove('open'); confirmCallback = null; }
-  document.getElementById('confirmOkBtn').onclick = () => { if (confirmCallback) confirmCallback(); };
+  document.getElementById('confirmOkBtn').onclick = async () => {
+    if (!confirmCallback) return;
+    const btn = document.getElementById('confirmOkBtn');
+    btn.textContent = '削除中...';
+    btn.disabled = true;
+    await confirmCallback();
+    btn.textContent = '削除する';
+    btn.disabled = false;
+  };
   document.getElementById('confirmDialog').addEventListener('click', function(e) { if (e.target === this) closeConfirm(); });
 
   // 売上集計
@@ -1019,8 +1092,10 @@ body {
         if (!match) return;
         const key = `${match[1]}年${match[2]}月`;
         const amount = parseInt((r.amount || '0').replace(/[,，\s]/g, '')) || 0;
-        if (!months[key]) months[key] = { total: 0, count: 0, year: parseInt(match[1]), month: parseInt(match[2]) };
+        const retail = parseInt((r.retail_amount || '0').replace(/[,，\s]/g, '')) || 0;
+        if (!months[key]) months[key] = { total: 0, retail: 0, count: 0, year: parseInt(match[1]), month: parseInt(match[2]) };
         months[key].total += amount;
+        months[key].retail += retail;
         months[key].count++;
       });
     });
@@ -1034,7 +1109,7 @@ body {
       <div class="sales-month-item" style="animation-delay:${i*0.05}s" onclick="showSalesByMonth('${key}')">
         <div>
           <p class="sales-month-label">${key}</p>
-          <p class="sales-month-sub">${months[key].count}件 · ¥${months[key].total.toLocaleString()}</p>
+          <p class="sales-month-sub">${months[key].count}件 · 技術 ¥${months[key].total.toLocaleString()} / 店販 ¥${months[key].retail.toLocaleString()}</p>
         </div>
         <span class="sales-month-arrow">›</span>
       </div>
@@ -1055,18 +1130,19 @@ body {
         const mk = match ? `${match[1]}年${match[2]}月` : '';
         if (mk !== monthKey) return;
         const amount = parseInt((r.amount || '0').replace(/[,，\s]/g, '')) || 0;
+        const retail = parseInt((r.retail_amount || '0').replace(/[,，\s]/g, '')) || 0;
         if (!byDate[r.date]) byDate[r.date] = [];
-        byDate[r.date].push({ name: c.name, menu: r.menu, amount });
+        byDate[r.date].push({ name: c.name, menu: r.menu, amount, retail, retail_name: r.retail_name || '' });
       });
     });
     const dates = Object.keys(byDate).sort((a, b) => {
       const parse = d => d.replace(/[年月日]/g, '/').replace(/\/$/, '');
       return new Date(parse(b)) - new Date(parse(a));
     });
-    let grandTotal = 0, grandCount = 0;
-    dates.forEach(d => { byDate[d].forEach(r => { grandTotal += r.amount; grandCount++; }); });
-    document.getElementById('salesTotalLabel').textContent = `TOTAL ¥${grandTotal.toLocaleString()}`;
-    document.getElementById('salesSubLabel').textContent = `${grandCount}件`;
+    let grandTotal = 0, grandRetail = 0, grandCount = 0;
+    dates.forEach(d => { byDate[d].forEach(r => { grandTotal += r.amount; grandRetail += r.retail; grandCount++; }); });
+    document.getElementById('salesTotalLabel').textContent = `技術 ¥${grandTotal.toLocaleString()}`;
+    document.getElementById('salesSubLabel').textContent = `店販 ¥${grandRetail.toLocaleString()} · ${grandCount}件`;
     const el = document.getElementById('salesListEl');
     if (dates.length === 0) { el.innerHTML = '<div class="no-records">データがありません</div>'; return; }
     el.innerHTML = dates.map((date, i) => {
@@ -1084,15 +1160,24 @@ body {
                 <div>
                   <p class="sales-day-name">${r.name}</p>
                   ${r.menu ? `<p class="sales-day-menu">${r.menu}</p>` : ''}
+                  ${r.retail_name ? `<p class="sales-day-menu">店販: ${r.retail_name}</p>` : ''}
                 </div>
-                <p class="sales-day-amount">${r.amount ? '¥' + r.amount.toLocaleString() : '—'}</p>
+                <div style="text-align:right;">
+                  <p class="sales-day-amount">${r.amount ? '¥' + r.amount.toLocaleString() : '—'}</p>
+                  ${r.retail ? `<p style="font-family:'Jost',sans-serif;font-size:11px;color:#888;font-weight:300;">店販 ¥${r.retail.toLocaleString()}</p>` : ''}
+                </div>
               </div>
             `).join('')}
           </div>
           <div class="sales-day-total">
-            <span class="sales-day-total-label">Day Total</span>
-            <span class="sales-day-total-val">¥${dayTotal.toLocaleString()}</span>
+            <span class="sales-day-total-label">技術</span>
+            <span class="sales-day-total-val">¥${rows.reduce((s,r)=>s+r.amount,0).toLocaleString()}</span>
           </div>
+          ${rows.some(r=>r.retail>0) ? `
+          <div class="sales-day-total">
+            <span class="sales-day-total-label">店販</span>
+            <span class="sales-day-total-val">¥${rows.reduce((s,r)=>s+r.retail,0).toLocaleString()}</span>
+          </div>` : ''}
         </div>
       `;
     }).join('');
@@ -1158,8 +1243,7 @@ body {
     const resultEl = document.getElementById('calResult');
     if (!entries || entries.length === 0) { resultEl.style.display = 'none'; return; }
     document.getElementById('calResultLabel').textContent = `${calYear}年${calMonth+1}月${day}日`;
-    const sorted = [...entries].sort((a, b) => 0);
-    document.getElementById('calResultList').innerHTML = sorted.map(e => `
+    document.getElementById('calResultList').innerHTML = entries.map(e => `
       <div class="cal-result-item" onclick="closeCalendar(); openClient('${e.clientId}')">
         <div>
           <p class="cal-result-name">${e.name}</p>
@@ -1171,5 +1255,6 @@ body {
     resultEl.style.display = 'block';
   }
 </script>
+
 </body>
 </html>
