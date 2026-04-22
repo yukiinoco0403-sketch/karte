@@ -228,28 +228,12 @@ body {
 .cal-result-menu { font-family: 'Jost', sans-serif; font-size: 11px; color: #888; font-weight: 300; margin-top: 2px; }
 .cal-result-arrow { color: var(--accent); font-size: 18px; }
 
-/* ローディング */
-.loading-screen { position: fixed; inset: 0; background: var(--header-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 500; }
-.loading-screen.hidden { display: none; }
-.loading-brand { font-family: 'Jost', sans-serif; font-size: 36px; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 24px; }
-.loading-dots { display: flex; gap: 6px; }
-.loading-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: dotPulse 1.2s ease infinite; opacity: 0.3; }
-.loading-dot:nth-child(2) { animation-delay: 0.2s; }
-.loading-dot:nth-child(3) { animation-delay: 0.4s; }
-@keyframes dotPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
 </style>
 </head>
 <body>
 
-<!-- ローディング画面 -->
-<div class="loading-screen" id="loadingScreen">
-  <p class="loading-brand">KARTE</p>
-  <div class="loading-dots">
-    <div class="loading-dot"></div>
-    <div class="loading-dot"></div>
-    <div class="loading-dot"></div>
-  </div>
-</div>
+
 
 <!-- HOME -->
 <div class="screen" id="screenHome">
@@ -260,7 +244,7 @@ body {
       <div style="display:flex;align-items:center;gap:10px;">
         <button class="btn-color-icon" onclick="openColorSheet()">🎨</button>
         <button class="btn-sales" onclick="showSales()">SALES</button>
-        <button onclick="doLogout()" style="background:transparent;border:none;font-family:'Jost',sans-serif;font-size:11px;color:#888;cursor:pointer;letter-spacing:0.1em;">LOGOUT</button>
+
       </div>
     </div>
     <div class="search-wrap">
@@ -377,6 +361,7 @@ body {
     <div class="sheet-handle"></div>
     <p class="sheet-title">New Record</p>
     <div class="form-group"><label>施術日 *</label><div style="display:flex;align-items:center;gap:4px;"><input type="number" id="inDateYear" min="2000" max="2099" style="width:72px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">年</span><input type="number" id="inDateMonth" min="1" max="12" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">月</span><input type="number" id="inDateDay" min="1" max="31" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">日</span></div></div>
+    <div class="form-group"><label>開始時間</label><div style="display:flex;align-items:center;gap:8px;"><input type="number" id="inTimeStartH" min="0" max="23" placeholder="10" style="width:56px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">:</span><input type="number" id="inTimeStartM" min="0" max="59" placeholder="00" style="width:56px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:14px;font-weight:300;color:#888;margin-left:12px;">〜</span><input type="number" id="inTimeEndH" min="0" max="23" placeholder="11" style="width:56px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">:</span><input type="number" id="inTimeEndM" min="0" max="59" placeholder="30" style="width:56px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"></div></div>
     <div class="form-group"><label>施術メニュー</label><input type="text" id="inMenu" placeholder="例：カラー＋カット"></div>
     <div class="form-group"><label>金額（技術）</label><input type="text" id="inAmount" placeholder="例：12,000"></div>
     <div class="form-group"><label>店販商品名</label><input type="text" id="inRetailName" placeholder="例：トリートメント、ヘアオイル"></div>
@@ -410,6 +395,7 @@ body {
     <div class="sheet-handle"></div>
     <p class="sheet-title">Edit Record</p>
     <div class="form-group"><label>施術日 *</label><div style="display:flex;align-items:center;gap:4px;"><input type="number" id="inEditDateYear" min="2000" max="2099" style="width:72px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">年</span><input type="number" id="inEditDateMonth" min="1" max="12" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">月</span><input type="number" id="inEditDateDay" min="1" max="31" style="width:52px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">日</span></div></div>
+    <div class="form-group"><label>開始時間</label><div style="display:flex;align-items:center;gap:8px;"><input type="number" id="inEditTimeStartH" min="0" max="23" placeholder="10" style="width:56px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">:</span><input type="number" id="inEditTimeStartM" min="0" max="59" placeholder="00" style="width:56px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:14px;font-weight:300;color:#888;margin-left:12px;">〜</span><input type="number" id="inEditTimeEndH" min="0" max="23" placeholder="11" style="width:56px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"><span style="font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:#333;">:</span><input type="number" id="inEditTimeEndM" min="0" max="59" placeholder="30" style="width:56px;border:1px solid #888;background:var(--header-bg);padding:12px 8px;font-family:Jost,sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;text-align:center;"></div></div>
     <div class="form-group"><label>施術メニュー</label><input type="text" id="inEditMenu"></div>
     <div class="form-group"><label>金額（技術）</label><input type="text" id="inEditAmount"></div>
     <div class="form-group"><label>店販商品名</label><input type="text" id="inEditRetailName"></div>
@@ -474,39 +460,7 @@ body {
   <img id="photoModalImg" src="" alt="">
 </div>
 
-<!-- ログイン画面 -->
-<div class="screen" id="screenLogin" style="background:var(--header-bg);justify-content:center;align-items:center;padding:40px 32px;">
-  <p style="font-family:'Jost',sans-serif;font-size:11px;font-weight:300;letter-spacing:0.5em;color:rgba(42,32,24,0.4);text-transform:uppercase;margin-bottom:8px;">personal</p>
-  <h1 style="font-family:'Jost',sans-serif;font-size:48px;font-weight:600;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:48px;">KARTE</h1>
 
-  <div id="loginForm" style="width:100%;">
-    <div style="margin-bottom:16px;">
-      <label style="display:block;font-size:9px;letter-spacing:0.25em;color:#888;font-family:'Jost',sans-serif;font-weight:400;text-transform:uppercase;margin-bottom:6px;">Email</label>
-      <input type="email" id="loginEmail" placeholder="example@email.com" style="width:100%;border:1px solid #888;background:white;padding:14px;font-family:'Jost',sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;">
-    </div>
-    <div style="margin-bottom:24px;">
-      <label style="display:block;font-size:9px;letter-spacing:0.25em;color:#888;font-family:'Jost',sans-serif;font-weight:400;text-transform:uppercase;margin-bottom:6px;">Password</label>
-      <input type="password" id="loginPassword" placeholder="••••••" style="width:100%;border:1px solid #888;background:white;padding:14px;font-family:'Jost',sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;">
-    </div>
-    <button id="loginBtn" onclick="doLogin()" style="width:100%;background:var(--accent);border:none;color:white;padding:15px;font-family:'Jost',sans-serif;font-size:14px;letter-spacing:0.15em;cursor:pointer;border-radius:2px;font-weight:500;text-transform:uppercase;margin-bottom:12px;">LOGIN</button>
-    <button onclick="showSignup()" style="width:100%;background:transparent;border:1px solid var(--accent);color:var(--accent);padding:15px;font-family:'Jost',sans-serif;font-size:14px;letter-spacing:0.15em;cursor:pointer;border-radius:2px;font-weight:400;text-transform:uppercase;">新規登録</button>
-    <p id="loginError" style="color:#c0392b;font-size:12px;text-align:center;margin-top:12px;font-family:'Jost',sans-serif;"></p>
-  </div>
-
-  <div id="signupForm" style="width:100%;display:none;">
-    <div style="margin-bottom:16px;">
-      <label style="display:block;font-size:9px;letter-spacing:0.25em;color:#888;font-family:'Jost',sans-serif;font-weight:400;text-transform:uppercase;margin-bottom:6px;">Email</label>
-      <input type="email" id="signupEmail" placeholder="example@email.com" style="width:100%;border:1px solid #888;background:white;padding:14px;font-family:'Jost',sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;">
-    </div>
-    <div style="margin-bottom:24px;">
-      <label style="display:block;font-size:9px;letter-spacing:0.25em;color:#888;font-family:'Jost',sans-serif;font-weight:400;text-transform:uppercase;margin-bottom:6px;">Password（6文字以上）</label>
-      <input type="password" id="signupPassword" placeholder="••••••" style="width:100%;border:1px solid #888;background:white;padding:14px;font-family:'Jost',sans-serif;font-weight:300;font-size:15px;color:#333;outline:none;border-radius:2px;-webkit-appearance:none;">
-    </div>
-    <button onclick="doSignup()" style="width:100%;background:var(--accent);border:none;color:white;padding:15px;font-family:'Jost',sans-serif;font-size:14px;letter-spacing:0.15em;cursor:pointer;border-radius:2px;font-weight:500;text-transform:uppercase;margin-bottom:12px;">登録する</button>
-    <button onclick="showLogin()" style="width:100%;background:transparent;border:1px solid var(--accent);color:var(--accent);padding:15px;font-family:'Jost',sans-serif;font-size:14px;letter-spacing:0.15em;cursor:pointer;border-radius:2px;font-weight:400;text-transform:uppercase;">ログインへ戻る</button>
-    <p id="signupMsg" style="color:#333;font-size:12px;text-align:center;margin-top:12px;font-family:'Jost',sans-serif;"></p>
-  </div>
-</div>
 
 <!-- カラー選択シート -->
 <div class="sheet-overlay" id="sheetColor">
@@ -569,69 +523,8 @@ body {
   let pendingPhotos = [];
   let pendingPhotosEdit = [];
 
-  // ローディング制御
-  function hideLoading() {
-    document.getElementById('loadingScreen').classList.add('hidden');
-  }
-
-  // ログイン
-  function showLogin() {
-    document.getElementById('loginForm').style.display = 'block';
-    document.getElementById('signupForm').style.display = 'none';
-  }
-  function showSignup() {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('signupForm').style.display = 'block';
-  }
-
-  async function doLogout() {
-    await sb.auth.signOut();
-    clients = [];
-    localStorage.removeItem('karte_v4');
-    hideLoading();
-    showScreen('screenLogin');
-  }
-
-  async function doLogin() {
-    const email = document.getElementById('loginEmail').value.trim();
-    const password = document.getElementById('loginPassword').value;
-    const btn = document.getElementById('loginBtn');
-    btn.textContent = '...';
-    btn.disabled = true;
-    document.getElementById('loginError').textContent = '';
-
-    const { data, error } = await sb.auth.signInWithPassword({ email, password });
-    if (error) {
-      document.getElementById('loginError').textContent = 'メールアドレスまたはパスワードが間違っています';
-      btn.textContent = 'LOGIN';
-      btn.disabled = false;
-      return;
-    }
-    currentUser = data.user;
-    await loadFromSupabase();
-    hideLoading();
-    showScreen('screenHome');
-    renderHome();
-    btn.textContent = 'LOGIN';
-    btn.disabled = false;
-  }
-
-  async function doSignup() {
-    const email = document.getElementById('signupEmail').value.trim();
-    const password = document.getElementById('signupPassword').value;
-    const { error } = await sb.auth.signUp({ email, password });
-    if (error) {
-      document.getElementById('signupMsg').textContent = '登録に失敗しました: ' + error.message;
-      document.getElementById('signupMsg').style.color = '#c0392b';
-      return;
-    }
-    document.getElementById('signupMsg').textContent = '確認メールを送信しました。メールを確認してください。';
-    document.getElementById('signupMsg').style.color = '#333';
-  }
-
   async function loadFromSupabase() {
-    if (!currentUser) return;
-    const { data: clientsData } = await sb.from('clients').select('*').eq('user_id', currentUser.id);
+    const { data: clientsData } = await sb.from('clients').select('*');
     if (!clientsData) return;
     const clientIds = clientsData.map(c => c.id);
     const { data: recordsData } = clientIds.length > 0
@@ -651,28 +544,10 @@ body {
     localStorage.setItem('karte_v4', JSON.stringify(clients));
   }
 
-  // 起動時セッション確認
-  const sessionTimeout = setTimeout(() => {
-    hideLoading();
-    showScreen('screenLogin');
-  }, 8000);
-
-  sb.auth.getSession().then(async ({ data: { session } }) => {
-    clearTimeout(sessionTimeout);
-    if (session) {
-      currentUser = session.user;
-      await loadFromSupabase();
-      hideLoading();
-      showScreen('screenHome');
-      renderHome();
-    } else {
-      hideLoading();
-      showScreen('screenLogin');
-    }
-  }).catch(() => {
-    clearTimeout(sessionTimeout);
-    hideLoading();
-    showScreen('screenLogin');
+  // 起動時に直接ホーム画面を表示
+  loadFromSupabase().then(() => {
+    showScreen('screenHome');
+    renderHome();
   });
 
   function saveLocal() {
@@ -681,10 +556,8 @@ body {
 
   async function saveClient(client) {
     saveLocal();
-    if (!currentUser) return;
     await sb.from('clients').upsert({
       id: client.id,
-      user_id: currentUser.id,
       name: client.name || '',
       kana: client.kana || '',
       memo: client.memo || ''
@@ -772,6 +645,7 @@ body {
           </div>
         </div>
         <div class="record-item-body">
+          ${(r.time_start || r.time_end) ? `<div class="record-row"><p class="record-row-label">Time</p><p class="record-row-value jost">${r.time_start || '--:--'} 〜 ${r.time_end || '--:--'}</p></div>` : ''}
           <div class="record-grid">
             <div class="record-row"><p class="record-row-label">Menu</p><p class="record-row-value ${r.menu ? 'jost' : 'empty'}">${r.menu || '未記入'}</p></div>
             <div class="record-row"><p class="record-row-label">技術売上</p><p class="${r.amount ? 'record-amount-val' : 'record-row-value empty'}">${r.amount ? '¥' + r.amount : '—'}</p></div>
@@ -979,7 +853,7 @@ body {
     document.getElementById('inDateYear').value = d.getFullYear();
     document.getElementById('inDateMonth').value = d.getMonth() + 1;
     document.getElementById('inDateDay').value = d.getDate();
-    ['inMenu','inAmount','inRetailName','inRetailAmount','inAgent','inContent','inConvo','inNote'].forEach(id => document.getElementById(id).value = '');
+    ['inMenu','inAmount','inRetailName','inRetailAmount','inAgent','inContent','inConvo','inNote','inTimeStartH','inTimeStartM','inTimeEndH','inTimeEndM'].forEach(id => document.getElementById(id).value = '');
     pendingPhotos = [];
     document.getElementById('photoPreviewGrid').innerHTML = '';
     openSheet('sheetNewRecord');
@@ -997,6 +871,8 @@ body {
     c.records.push({
       id: Date.now().toString() + Math.random().toString(36).slice(2),
       date: buildDate(year, month, day),
+      time_start: document.getElementById('inTimeStartH').value && document.getElementById('inTimeStartM').value ? `${document.getElementById('inTimeStartH').value.padStart(2,'0')}:${document.getElementById('inTimeStartM').value.padStart(2,'0')}` : '',
+      time_end: document.getElementById('inTimeEndH').value && document.getElementById('inTimeEndM').value ? `${document.getElementById('inTimeEndH').value.padStart(2,'0')}:${document.getElementById('inTimeEndM').value.padStart(2,'0')}` : '',
       menu: document.getElementById('inMenu').value.trim(),
       amount: document.getElementById('inAmount').value.trim(),
       retail_name: document.getElementById('inRetailName').value.trim(),
@@ -1024,6 +900,8 @@ body {
     document.getElementById('inEditDateYear').value = match ? match[1] : d.getFullYear();
     document.getElementById('inEditDateMonth').value = match ? match[2] : d.getMonth() + 1;
     document.getElementById('inEditDateDay').value = match ? match[3] : d.getDate();
+    if (r.time_start) { const [h,m] = r.time_start.split(':'); document.getElementById('inEditTimeStartH').value = h || ''; document.getElementById('inEditTimeStartM').value = m || ''; } else { document.getElementById('inEditTimeStartH').value = ''; document.getElementById('inEditTimeStartM').value = ''; }
+    if (r.time_end) { const [h,m] = r.time_end.split(':'); document.getElementById('inEditTimeEndH').value = h || ''; document.getElementById('inEditTimeEndM').value = m || ''; } else { document.getElementById('inEditTimeEndH').value = ''; document.getElementById('inEditTimeEndM').value = ''; }
     document.getElementById('inEditMenu').value = r.menu || '';
     document.getElementById('inEditAmount').value = r.amount || '';
     document.getElementById('inEditRetailName').value = r.retail_name || '';
@@ -1048,6 +926,8 @@ body {
     const editBtn = document.querySelector('#sheetEditRecord .btn-sheet-save');
     editBtn.textContent = '保存中...'; editBtn.disabled = true;
     r.date = buildDate(year, month, day);
+    r.time_start = document.getElementById('inEditTimeStartH').value && document.getElementById('inEditTimeStartM').value ? `${document.getElementById('inEditTimeStartH').value.padStart(2,'0')}:${document.getElementById('inEditTimeStartM').value.padStart(2,'0')}` : '';
+    r.time_end = document.getElementById('inEditTimeEndH').value && document.getElementById('inEditTimeEndM').value ? `${document.getElementById('inEditTimeEndH').value.padStart(2,'0')}:${document.getElementById('inEditTimeEndM').value.padStart(2,'0')}` : '';
     r.menu = document.getElementById('inEditMenu').value.trim();
     r.amount = document.getElementById('inEditAmount').value.trim();
     r.retail_name = document.getElementById('inEditRetailName').value.trim();
