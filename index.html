@@ -228,6 +228,23 @@ body {
 .cal-result-menu { font-family: 'Jost', sans-serif; font-size: 11px; color: #888; font-weight: 300; margin-top: 2px; }
 .cal-result-arrow { color: var(--accent); font-size: 18px; }
 
+/* カレンダーページ */
+.cal-page-cell { min-height: 72px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 6px 4px; cursor: pointer; position: relative; background: var(--surface); transition: background 0.15s; }
+.cal-page-cell:active { background: var(--accent-light); }
+.cal-page-cell.empty { background: var(--bg); cursor: default; }
+.cal-page-cell.today .cal-page-num { background: var(--accent); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+.cal-page-cell:nth-child(7n+1) .cal-page-num { color: #c0392b; }
+.cal-page-cell:nth-child(7n) .cal-page-num { color: #476adc; }
+.cal-page-num { font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 400; color: #333; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+.cal-page-clients { margin-top: 3px; }
+.cal-page-client-name { font-family: 'Jost', sans-serif; font-size: 9px; color: var(--accent); font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.4; letter-spacing: 0.02em; }
+.cal-day-item { display: flex; align-items: center; padding: 14px 24px; border-bottom: 1px solid rgba(136,136,136,0.1); cursor: pointer; }
+.cal-day-item:active { background: var(--accent-light); }
+.cal-day-time { font-family: 'Jost', sans-serif; font-size: 13px; color: var(--accent); font-weight: 400; letter-spacing: 0.05em; min-width: 52px; }
+.cal-day-name { font-family: 'Jost', sans-serif; font-size: 15px; color: #333; font-weight: 400; flex: 1; }
+.cal-day-menu { font-family: 'Jost', sans-serif; font-size: 11px; color: #888; font-weight: 300; margin-top: 2px; }
+.cal-day-arrow { color: var(--accent); font-size: 18px; }
+
 
 </style>
 </head>
@@ -243,6 +260,7 @@ body {
       <h1 class="home-brand">KARTE</h1>
       <div style="display:flex;align-items:center;gap:10px;">
         <button class="btn-color-icon" onclick="openColorSheet()">🎨</button>
+        <button class="btn-sales" onclick="openCalendarPage()">CAL</button>
         <button class="btn-sales" onclick="showSales()">SALES</button>
 
       </div>
@@ -260,6 +278,70 @@ body {
     <div id="clientListEl"></div>
   </div>
   <button class="fab" onclick="openNewClientSheet()">＋</button>
+</div>
+
+<!-- CALENDAR PAGE -->
+<div class="screen" id="screenCalendar">
+  <div class="detail-header">
+    <div class="detail-nav">
+      <div onclick="goHome()" style="display:flex;align-items:center;gap:8px;cursor:pointer;flex:1;padding:8px 0;">
+        <button class="btn-back" style="pointer-events:none;">←</button>
+        <span class="detail-nav-title">Calendar</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button onclick="calPagePrev()" style="background:transparent;border:none;color:var(--accent);font-size:22px;cursor:pointer;padding:4px 8px;">‹</button>
+        <span id="calPageMonthLabel" style="font-family:'Jost',sans-serif;font-size:15px;font-weight:500;color:#333;letter-spacing:0.05em;min-width:90px;text-align:center;"></span>
+        <button onclick="calPageNext()" style="background:transparent;border:none;color:var(--accent);font-size:22px;cursor:pointer;padding:4px 8px;">›</button>
+      </div>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding-bottom:40px;">
+    <!-- 曜日ヘッダー -->
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--border);">
+      <div style="text-align:center;padding:10px 0;font-family:'Jost',sans-serif;font-size:11px;color:#c0392b;font-weight:400;">Sun</div>
+      <div style="text-align:center;padding:10px 0;font-family:'Jost',sans-serif;font-size:11px;color:#888;font-weight:400;">Mon</div>
+      <div style="text-align:center;padding:10px 0;font-family:'Jost',sans-serif;font-size:11px;color:#888;font-weight:400;">Tue</div>
+      <div style="text-align:center;padding:10px 0;font-family:'Jost',sans-serif;font-size:11px;color:#888;font-weight:400;">Wed</div>
+      <div style="text-align:center;padding:10px 0;font-family:'Jost',sans-serif;font-size:11px;color:#888;font-weight:400;">Thu</div>
+      <div style="text-align:center;padding:10px 0;font-family:'Jost',sans-serif;font-size:11px;color:#888;font-weight:400;">Fri</div>
+      <div style="text-align:center;padding:10px 0;font-family:'Jost',sans-serif;font-size:11px;color:#476adc;font-weight:400;">Sat</div>
+    </div>
+    <!-- カレンダーグリッド -->
+    <div id="calPageGrid" style="display:grid;grid-template-columns:repeat(7,1fr);"></div>
+  </div>
+</div>
+
+<!-- カレンダー日付ボトムシート -->
+<div class="sheet-overlay" id="sheetCalDay">
+  <div class="sheet" style="max-height:70vh;">
+    <div class="sheet-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 24px 0;">
+      <p id="calDayLabel" style="font-family:'Jost',sans-serif;font-size:13px;font-weight:400;color:#333;letter-spacing:0.1em;"></p>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button onclick="openCalClientSelect()" style="background:var(--accent);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;font-weight:300;">＋</button>
+        <button onclick="closeSheet('sheetCalDay')" style="background:transparent;border:none;color:#aaa;font-size:20px;cursor:pointer;line-height:1;">✕</button>
+      </div>
+    </div>
+    <div id="calDayList" style="padding:12px 0 20px;overflow-y:auto;max-height:50vh;"></div>
+  </div>
+</div>
+
+<!-- カレンダー顧客選択シート -->
+<div class="sheet-overlay" id="sheetCalClientSelect">
+  <div class="sheet" style="max-height:85vh;">
+    <div class="sheet-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 24px 0;">
+      <p id="calClientSelectLabel" style="font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.3em;color:#888;text-transform:uppercase;font-weight:400;">Select Client</p>
+      <button onclick="closeSheet('sheetCalClientSelect')" style="background:transparent;border:none;color:#aaa;font-size:20px;cursor:pointer;line-height:1;">✕</button>
+    </div>
+    <div style="padding:12px 24px 0;">
+      <div style="position:relative;">
+        <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:rgba(42,32,24,0.35);font-size:14px;pointer-events:none;">🔍</span>
+        <input type="text" id="calClientSearch" placeholder="Search by name..." oninput="renderCalClientList(this.value)" style="width:100%;background:rgba(255,255,255,0.6);border:1px solid var(--accent);border-radius:24px;padding:10px 16px 10px 38px;font-family:'Jost',sans-serif;font-size:14px;font-weight:300;color:var(--text);outline:none;-webkit-appearance:none;">
+      </div>
+    </div>
+    <div id="calClientList" style="padding:12px 0 20px;overflow-y:auto;max-height:60vh;"></div>
+  </div>
 </div>
 
 <!-- SALES MONTH SELECT -->
@@ -786,7 +868,7 @@ body {
 
   function openSheet(id) { document.getElementById(id).classList.add('open'); }
   function closeSheet(id) { document.getElementById(id).classList.remove('open'); }
-  ['sheetNewClient','sheetEditClient','sheetNewRecord','sheetEditRecord','sheetColor'].forEach(id => {
+  ['sheetNewClient','sheetEditClient','sheetNewRecord','sheetEditRecord','sheetColor','sheetCalDay','sheetCalClientSelect'].forEach(id => {
     document.getElementById(id).addEventListener('click', function(e) { if (e.target === this) closeSheet(id); });
   });
 
@@ -1071,6 +1153,144 @@ body {
         </div>
       `;
     }).join('');
+  }
+
+  // カレンダーページ
+  let calPageYear = new Date().getFullYear();
+  let calPageMonth = new Date().getMonth();
+
+  function openCalendarPage() {
+    calPageYear = new Date().getFullYear();
+    calPageMonth = new Date().getMonth();
+    renderCalendarPage();
+    showScreen('screenCalendar');
+  }
+
+  function calPagePrev() {
+    calPageMonth--;
+    if (calPageMonth < 0) { calPageMonth = 11; calPageYear--; }
+    renderCalendarPage();
+  }
+
+  function calPageNext() {
+    calPageMonth++;
+    if (calPageMonth > 11) { calPageMonth = 0; calPageYear++; }
+    renderCalendarPage();
+  }
+
+  function getClientsForDate(year, month, day) {
+    const results = [];
+    clients.forEach(c => {
+      c.records.forEach(r => {
+        const match = r.date.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+        if (!match) return;
+        if (parseInt(match[1]) === year && parseInt(match[2]) === month + 1 && parseInt(match[3]) === day) {
+          results.push({ name: c.name || c.kana, kana: c.kana, menu: r.menu, time_start: r.time_start || '', clientId: c.id });
+        }
+      });
+    });
+    results.sort((a, b) => (a.time_start || '99:99').localeCompare(b.time_start || '99:99'));
+    return results;
+  }
+
+  function renderCalendarPage() {
+    const today = new Date();
+    const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    document.getElementById('calPageMonthLabel').textContent = `${monthNames[calPageMonth]} ${calPageYear}`;
+    const firstDay = new Date(calPageYear, calPageMonth, 1).getDay();
+    const daysInMonth = new Date(calPageYear, calPageMonth + 1, 0).getDate();
+    let html = '';
+    for (let i = 0; i < firstDay; i++) {
+      html += `<div class="cal-page-cell empty"></div>`;
+    }
+    for (let d = 1; d <= daysInMonth; d++) {
+      const isToday = calPageYear === today.getFullYear() && calPageMonth === today.getMonth() && d === today.getDate();
+      const dayClients = getClientsForDate(calPageYear, calPageMonth, d);
+      const clientsHTML = dayClients.slice(0, 3).map(cl => `<p class="cal-page-client-name">${cl.time_start ? cl.time_start + ' ' : ''}${cl.name}</p>`).join('');
+      const moreHTML = dayClients.length > 3 ? `<p class="cal-page-client-name" style="color:#888;">+${dayClients.length - 3}件</p>` : '';
+      html += `<div class="cal-page-cell ${isToday ? 'today' : ''}" onclick="openCalDay(${d})">
+        <div class="cal-page-num">${d}</div>
+        <div class="cal-page-clients">${clientsHTML}${moreHTML}</div>
+      </div>`;
+    }
+    document.getElementById('calPageGrid').innerHTML = html;
+  }
+
+  let calSelectedDate = '';
+
+  function openCalClientSelect() {
+    calSelectedDate = `${calPageYear}年${calPageMonth + 1}月${calPageSelectedDay}日`;
+    document.getElementById('calClientSelectLabel').textContent = calSelectedDate + ' — Select Client';
+    document.getElementById('calClientSearch').value = '';
+    renderCalClientList('');
+    openSheet('sheetCalClientSelect');
+  }
+
+  function renderCalClientList(query) {
+    const el = document.getElementById('calClientList');
+    const filtered = query
+      ? clients.filter(c => (c.kana || '').includes(query) || (c.name || '').includes(query))
+      : [...clients].sort((a, b) => (a.kana || '').localeCompare(b.kana || '', 'ja'));
+    if (filtered.length === 0) {
+      el.innerHTML = `<p style="text-align:center;padding:32px 20px;color:#888;font-family:'Jost',sans-serif;font-size:13px;">見つかりません</p>`;
+      return;
+    }
+    el.innerHTML = filtered.map(cl => `
+      <div onclick="openNewRecordFromCal('${cl.id}')" style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid rgba(136,136,136,0.1);cursor:pointer;">
+        <div>
+          <p style="font-family:'Jost',sans-serif;font-size:16px;font-weight:400;color:#333;">${cl.name || cl.kana}</p>
+          <p style="font-family:'Jost',sans-serif;font-size:11px;color:#888;font-weight:300;margin-top:2px;">${cl.kana || ''}</p>
+        </div>
+        <span style="color:var(--accent);font-size:18px;">›</span>
+      </div>
+    `).join('');
+  }
+
+  function openNewRecordFromCal(clientId) {
+    closeSheet('sheetCalClientSelect');
+    closeSheet('sheetCalDay');
+    currentClientId = clientId;
+    // 日付を自動セット
+    const match = calSelectedDate.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+    if (match) {
+      document.getElementById('inDateYear').value = match[1];
+      document.getElementById('inDateMonth').value = match[2];
+      document.getElementById('inDateDay').value = match[3];
+    }
+    // 他のフィールドをリセット
+    ['inMenu','inAmount','inRetailName','inRetailAmount','inAgent','inContent','inConvo','inNote','inTimeStartH','inTimeStartM','inTimeEndH','inTimeEndM'].forEach(id => document.getElementById(id).value = '');
+    pendingPhotos = [];
+    document.getElementById('photoPreviewGrid').innerHTML = '';
+    showScreen('screenDetail');
+    renderDetail();
+    openSheet('sheetNewRecord');
+  }
+
+  let calPageSelectedDay = 1;
+
+  function openCalDay(day) {
+    calPageSelectedDay = day;
+    const dayClients = getClientsForDate(calPageYear, calPageMonth, day);
+    const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('calDayLabel').textContent = `${monthNames[calPageMonth]} ${day}, ${calPageYear}`;
+    const el = document.getElementById('calDayList');
+    if (dayClients.length === 0) {
+      el.innerHTML = `<p style="text-align:center;padding:32px 20px;color:#888;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;">施術記録なし</p>`;
+    } else {
+      el.innerHTML = dayClients.map(cl => `
+        <div class="cal-day-item" onclick="closeSheet('sheetCalDay'); openClient('${cl.clientId}')">
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              ${cl.time_start ? `<span class="cal-day-time">${cl.time_start}</span>` : ''}
+              <span class="cal-day-name">${cl.name}</span>
+            </div>
+            ${cl.menu ? `<p class="cal-day-menu">${cl.menu}</p>` : ''}
+          </div>
+          <span class="cal-day-arrow">›</span>
+        </div>
+      `).join('');
+    }
+    openSheet('sheetCalDay');
   }
 
   // カレンダー
